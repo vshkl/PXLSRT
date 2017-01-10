@@ -24,8 +24,6 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     public static final String EXTRA_FILENAME = "ResultActivity.filename";
     public static final String EXTRA_SORTING_MODE = "ResultActivity.sorting_mode";
-    private String filename;
-    private SortingMode sortingMode;
 
     @BindView(R.id.iv_result) ImageView ivResult;
     @BindView(R.id.pb_loading) AVLoadingIndicatorView pbProgress;
@@ -106,10 +104,12 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     private void processIntentExtra() {
         Intent intent = getIntent();
         if (intent != null) {
-            filename = intent.getStringExtra(EXTRA_FILENAME);
-            sortingMode = (SortingMode) intent.getSerializableExtra(EXTRA_SORTING_MODE);
-            if (filename != null) {
+            String filename = intent.getStringExtra(EXTRA_FILENAME);
+            SortingMode sortingMode = (SortingMode) intent.getSerializableExtra(EXTRA_SORTING_MODE);
+            if (filename != null && sortingMode != null) {
                 try {
+                    presenter.setFilename(filename);
+                    presenter.setSortingMode(sortingMode);
                     presenter.processImage(this.openFileInput(filename));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
