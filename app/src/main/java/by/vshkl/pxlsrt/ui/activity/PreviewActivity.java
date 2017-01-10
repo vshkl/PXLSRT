@@ -79,7 +79,8 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     }
 
     @Override
-    public void retakePicture() {
+    public void retakePicture(String filename) {
+        deleteFile(filename);
         finish();
     }
 

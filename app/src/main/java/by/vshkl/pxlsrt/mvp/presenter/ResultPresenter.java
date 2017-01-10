@@ -51,7 +51,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     }
 
     public void retakePicture() {
-        getViewState().retakePicture();
+        getViewState().retakePicture(filename);
     }
 
     public void savePicture() {

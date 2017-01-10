@@ -14,7 +14,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class BitmapUtils {
+public class TempStorageUtils {
 
     public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String fname, final byte[] data) {
         return Observable.create(new ObservableOnSubscribe<String>() {
@@ -38,7 +38,7 @@ public class BitmapUtils {
         });
     }
 
-    public static Observable<Bitmap> getStoredBitmap(final FileInputStream fis) {
+    public static Observable<Bitmap> getTempBitmap(final FileInputStream fis) {
         return Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {

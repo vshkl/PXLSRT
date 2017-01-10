@@ -7,7 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.io.FileInputStream;
 
-import by.vshkl.pxlsrt.core.utils.BitmapUtils;
+import by.vshkl.pxlsrt.core.utils.TempStorageUtils;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.view.PreviewView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -37,7 +37,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     }
 
     public void setPreviewImage(FileInputStream fis) {
-        disposable = BitmapUtils.getStoredBitmap(fis)
+        disposable = TempStorageUtils.getTempBitmap(fis)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Bitmap>() {
@@ -49,7 +49,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     }
 
     public void retakePicture() {
-        getViewState().retakePicture();
+        getViewState().retakePicture(filename);
     }
 
     public void proceedToProcessing() {

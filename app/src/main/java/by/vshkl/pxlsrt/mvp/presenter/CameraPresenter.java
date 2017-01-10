@@ -5,7 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.io.FileOutputStream;
 
-import by.vshkl.pxlsrt.core.utils.BitmapUtils;
+import by.vshkl.pxlsrt.core.utils.TempStorageUtils;
 import by.vshkl.pxlsrt.mvp.view.CameraView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -42,7 +42,7 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
     }
 
     public void processPicture(FileOutputStream fos, String fname, byte[] data) {
-        disposable = BitmapUtils.saveTempBitmap(fos, fname, data)
+        disposable = TempStorageUtils.saveTempBitmap(fos, fname, data)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {

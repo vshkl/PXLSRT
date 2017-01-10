@@ -10,7 +10,7 @@ public interface PreviewView extends MvpView {
 
     void setPreviewImage(Bitmap bitmap);
 
-    void retakePicture();
+    void retakePicture(String filename);
 
     void proceedToProcessing(String filename, SortingMode sortingMode);
 }
