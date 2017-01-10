@@ -37,7 +37,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     }
 
     public void processImage(FileInputStream fis) {
-        disposable = PixelSort.sort(fis)
+        disposable = PixelSort.sort(fis, sortingMode)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Bitmap>() {
