@@ -21,6 +21,8 @@ import by.vshkl.pxlsrt.ui.customview.GridView;
 
 public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxlsrt.mvp.view.CameraView {
 
+    private static final String FNAME_PREFIX = "PXLSRT_";
+
     @BindView(R.id.cv_camera) CameraView cvCamera;
     @BindView(R.id.gv_grid_overlay) GridView gvGridOverlay;
     @BindView(R.id.iv_grid) ImageView ivGrid;
@@ -39,7 +41,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
             public void onPictureTaken(CameraView cameraView, byte[] data) {
                 super.onPictureTaken(cameraView, data);
                 try {
-                    String filename = "PXLSRT_" + System.currentTimeMillis();
+                    String filename = FNAME_PREFIX + System.currentTimeMillis();
                     presenter.processPicture(openFileOutput(filename, Context.MODE_PRIVATE), filename, data);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
