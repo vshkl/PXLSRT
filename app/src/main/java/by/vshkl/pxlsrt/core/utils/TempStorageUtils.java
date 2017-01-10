@@ -22,7 +22,7 @@ public class TempStorageUtils {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight());
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getWidth());
                 bitmap = Bitmap.createScaledBitmap(
                         bitmap, CameraPresenter.IMAGE_SIZE_PX, CameraPresenter.IMAGE_SIZE_PX, false);
                 storeFile(fos, bitmap)
