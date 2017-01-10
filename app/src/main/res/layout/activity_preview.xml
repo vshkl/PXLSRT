@@ -74,9 +74,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="40dp"
-            android:paddingTop="40dp"
-            app:srcCompat="@drawable/ic_close"
+            android:paddingBottom="48dp"
+            android:paddingTop="48dp"
+            app:srcCompat="@drawable/ic_camera_new"
             />
 
         <ImageView
@@ -84,8 +84,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="40dp"
-            android:paddingTop="40dp"
+            android:paddingBottom="48dp"
+            android:paddingTop="48dp"
             app:srcCompat="@drawable/ic_ok"
             />
 
