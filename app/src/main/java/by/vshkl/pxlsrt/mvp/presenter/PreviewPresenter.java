@@ -8,6 +8,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.io.FileInputStream;
 
 import by.vshkl.pxlsrt.core.utils.BitmapUtils;
+import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.view.PreviewView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -18,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 public class PreviewPresenter extends MvpPresenter<PreviewView> {
 
     private Disposable disposable;
+    private SortingMode sortingMode = SortingMode.BRIGHTNESS;
 
     public void onStop() {
         if (disposable != null) {

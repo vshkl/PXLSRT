@@ -52,6 +52,21 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         presenter.proceedToProcessing();
     }
 
+    @OnClick(R.id.tv_black)
+    void onBlackClicked() {
+
+    }
+
+    @OnClick(R.id.tv_brightness)
+    void onBrightnessClicked() {
+
+    }
+
+    @OnClick(R.id.tv_white)
+    void onWhiteClicked() {
+
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
     @Override
