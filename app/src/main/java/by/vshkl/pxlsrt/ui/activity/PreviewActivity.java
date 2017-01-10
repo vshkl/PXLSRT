@@ -84,9 +84,10 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     }
 
     @Override
-    public void proceedToProcessing(String filename) {
+    public void proceedToProcessing(String filename, SortingMode sortingMode) {
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultActivity.EXTRA_FILENAME, filename);
+        intent.putExtra(ResultActivity.EXTRA_SORTING_MODE, sortingMode);
         startActivity(intent);
     }
 

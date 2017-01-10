@@ -54,7 +54,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
 
     public void proceedToProcessing() {
         if (filename != null) {
-            getViewState().proceedToProcessing(filename);
+            getViewState().proceedToProcessing(filename, sortingMode);
         }
     }
 }
