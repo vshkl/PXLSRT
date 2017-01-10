@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -22,6 +23,9 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @BindView(R.id.cv_camera) CameraView cvCamera;
     @BindView(R.id.gv_grid_overlay) GridView gvGridOverlay;
+    @BindView(R.id.iv_grid) ImageView ivGrid;
+    @BindView(R.id.iv_camera) ImageView ivCamera;
+    @BindView(R.id.iv_flash) ImageView ivFlash;
     @InjectPresenter CameraPresenter presenter;
 
     @Override
@@ -86,10 +90,15 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     //------------------------------------------------------------------------------------------------------------------
 
-
     @Override
     public void toggleGrid() {
-        gvGridOverlay.setVisibility(gvGridOverlay.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        if (gvGridOverlay.getVisibility() == View.GONE) {
+            gvGridOverlay.setVisibility(View.VISIBLE);
+            ivGrid.setImageResource(R.drawable.ic_camera_grid_on);
+        } else {
+            gvGridOverlay.setVisibility(View.GONE);
+            ivGrid.setImageResource(R.drawable.ic_camera_grid_off);
+        }
     }
 
     @Override
@@ -97,9 +106,11 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         switch (cvCamera.getFacing()) {
             case CameraView.FACING_BACK:
                 cvCamera.setFacing(CameraView.FACING_FRONT);
+                ivCamera.setImageResource(R.drawable.ic_camera_front);
                 break;
             case CameraView.FACING_FRONT:
                 cvCamera.setFacing(CameraView.FACING_BACK);
+                ivCamera.setImageResource(R.drawable.ic_camera_rear);
                 break;
         }
     }
@@ -108,10 +119,12 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     public void toggleFlash() {
         switch (cvCamera.getFlash()) {
             case CameraView.FLASH_OFF:
-                cvCamera.setFlash(CameraView.FLASH_ON);
+                cvCamera.setFlash(CameraView.FLASH_AUTO);
+                ivFlash.setImageResource(R.drawable.ic_camera_flash_auto);
                 break;
-            case CameraView.FLASH_ON:
+            case CameraView.FLASH_AUTO:
                 cvCamera.setFlash(CameraView.FLASH_OFF);
+                ivFlash.setImageResource(R.drawable.ic_camera_flash_off);
                 break;
         }
     }

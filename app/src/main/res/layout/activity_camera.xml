@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
-            app:srcCompat="@drawable/ic_grid"
+            app:srcCompat="@drawable/ic_camera_grid_off"
             />
 
         <ImageView
@@ -62,7 +62,7 @@
             android:layout_weight="1"
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
-            app:srcCompat="@drawable/ic_rotate"
+            app:srcCompat="@drawable/ic_camera_rear"
             />
 
         <ImageView
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
-            app:srcCompat="@drawable/ic_flash"
+            app:srcCompat="@drawable/ic_camera_flash_auto"
             />
 
     </LinearLayout>
@@ -84,7 +84,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/container_buttons"
         android:padding="16dp"
-        app:srcCompat="@drawable/ic_camera"
+        app:srcCompat="@drawable/ic_camera_shutter"
         />
 
 </RelativeLayout>
