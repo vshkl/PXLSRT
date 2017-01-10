@@ -19,4 +19,6 @@ public interface ResultView extends MvpView {
     void retakePicture(String filename);
 
     void savePicture(String filename, String directory);
+
+    void removeTempFile(String filename);
 }

@@ -93,7 +93,6 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     @Override
     public void retakePicture(String filename) {
-        deleteFile(filename);
         Intent intent = new Intent(this, CameraActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -102,8 +101,12 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     @Override
     public void savePicture(String filename, String directory) {
-        deleteFile(filename);
         processSavePicture(filename, directory);
+    }
+
+    @Override
+    public void removeTempFile(String filename) {
+        deleteFile(filename);
     }
 
     //------------------------------------------------------------------------------------------------------------------

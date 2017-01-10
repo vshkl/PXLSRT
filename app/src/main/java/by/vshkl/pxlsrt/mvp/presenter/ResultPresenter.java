@@ -27,6 +27,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     private SortingMode sortingMode;
 
     public void onDestroy() {
+        getViewState().removeTempFile(filename);
         if (disposable != null) {
             disposable.dispose();
         }
@@ -75,10 +76,12 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     }
 
     public void retakePicture() {
+        getViewState().removeTempFile(filename);
         getViewState().retakePicture(filename);
     }
 
     public void savePicture() {
+        getViewState().removeTempFile(filename);
         getViewState().savePicture(filename, OUTPUT_DIRECTORY);
     }
 }
