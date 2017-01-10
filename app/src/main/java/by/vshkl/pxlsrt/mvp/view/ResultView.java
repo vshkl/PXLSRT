@@ -18,5 +18,5 @@ public interface ResultView extends MvpView {
 
     void retakePicture(String filename);
 
-    void savePicture();
+    void savePicture(String filename, String directory);
 }

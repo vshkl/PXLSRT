@@ -2,7 +2,9 @@ package by.vshkl.pxlsrt.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,7 +12,10 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +58,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     }
 
     @OnClick(R.id.iv_save)
-    void onProceedClicked() {
+    void onSavePictureClicked() {
         if (ivSave.isEnabled()) {
             presenter.savePicture();
         }
@@ -96,7 +101,9 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     }
 
     @Override
-    public void savePicture() {
+    public void savePicture(String filename, String directory) {
+        deleteFile(filename);
+        processSavePicture(filename, directory);
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -115,6 +122,26 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private void processSavePicture(String filename, String directory) {
+        File file = new File(new StringBuilder()
+                .append(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES))
+                .append(File.separator)
+                .append(directory)
+                .append(File.separator)
+                .append(filename)
+                .append(".png")
+                .toString());
+        if (!file.getParentFile().exists()) {
+            file.mkdirs();
+        }
+        try {
+            presenter.saveResultPicture(
+                    new FileOutputStream(file), ((BitmapDrawable) ivResult.getDrawable()).getBitmap());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -6,18 +6,22 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import by.vshkl.pxlsrt.core.PixelSort;
+import by.vshkl.pxlsrt.core.utils.TempStorageUtils;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.view.ResultView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ResultPresenter extends MvpPresenter<ResultView> {
 
+    private static final String OUTPUT_DIRECTORY = "PXLSRT";
     private Disposable disposable;
     private String filename;
     private SortingMode sortingMode;
@@ -50,12 +54,31 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                 });
     }
 
+    public void saveResultPicture(FileOutputStream fos, Bitmap bitmap) {
+        disposable = TempStorageUtils.saveResultPicture(fos, bitmap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorReturn(new Function<Throwable, Boolean>() {
+                    @Override
+                    public Boolean apply(Throwable throwable) throws Exception {
+                        return null;
+                    }
+                })
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            // File saved
+                        }
+                    }
+                });
+    }
+
     public void retakePicture() {
         getViewState().retakePicture(filename);
     }
 
     public void savePicture() {
-        getViewState().savePicture();
+        getViewState().savePicture(filename, OUTPUT_DIRECTORY);
     }
-
 }
