@@ -1,16 +1,18 @@
 package by.vshkl.pxlsrt.mvp.presenter;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
+import by.vshkl.pxlsrt.core.utils.BitmapUtils;
 import by.vshkl.pxlsrt.mvp.view.PreviewView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class PreviewPresenter extends MvpPresenter<PreviewView> {
@@ -24,13 +26,15 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     }
 
     public void setPreviewImage(FileInputStream fis) {
-        Bitmap bitmap = BitmapFactory.decodeStream(fis);
-        try {
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        getViewState().setPreviewImage(bitmap);
+        disposable = BitmapUtils.getStoredBitmap(fis)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Bitmap>() {
+                    @Override
+                    public void accept(Bitmap bitmap) throws Exception {
+                        getViewState().setPreviewImage(bitmap);
+                    }
+                });
     }
 
     public void retakePicture() {
