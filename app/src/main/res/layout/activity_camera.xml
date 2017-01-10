@@ -49,8 +49,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             app:srcCompat="@drawable/ic_camera_grid_off"
             />
 
@@ -60,8 +60,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             app:srcCompat="@drawable/ic_camera_rear"
             />
 
@@ -71,8 +71,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             app:srcCompat="@drawable/ic_camera_flash_auto"
             />
 
