@@ -3,6 +3,7 @@ package by.vshkl.pxlsrt.core.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -33,6 +34,22 @@ public class BitmapUtils {
                                 }
                             }
                         });
+            }
+        });
+    }
+
+    public static Observable<Bitmap> getStoredBitmap(final FileInputStream fis) {
+        return Observable.create(new ObservableOnSubscribe<Bitmap>() {
+            @Override
+            public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {
+                Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                try {
+                    fis.close();
+                    emitter.onNext(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
             }
         });
     }
