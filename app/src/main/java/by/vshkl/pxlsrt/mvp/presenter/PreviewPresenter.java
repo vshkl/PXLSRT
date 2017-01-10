@@ -27,6 +27,10 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
         }
     }
 
+    public void setSortingMode(SortingMode sortingMode) {
+        this.sortingMode = sortingMode;
+    }
+
     public void setPreviewImage(FileInputStream fis) {
         disposable = BitmapUtils.getStoredBitmap(fis)
                 .subscribeOn(Schedulers.io())
