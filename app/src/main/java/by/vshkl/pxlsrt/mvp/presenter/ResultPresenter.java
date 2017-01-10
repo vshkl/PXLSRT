@@ -48,7 +48,6 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                         getViewState().setResultPicture(bitmap);
                     }
                 });
-
     }
 
     public void retakePicture() {
