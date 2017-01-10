@@ -39,9 +39,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     }
 
     @Override
-    protected void onStop() {
-        presenter.onStop();
-        super.onStop();
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -80,7 +80,6 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     @Override
     public void retakePicture(String filename) {
-        deleteFile(filename);
         finish();
     }
 
@@ -90,6 +89,11 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         intent.putExtra(ResultActivity.EXTRA_FILENAME, filename);
         intent.putExtra(ResultActivity.EXTRA_SORTING_MODE, sortingMode);
         startActivity(intent);
+    }
+
+    @Override
+    public void removeTempFile(String filename) {
+        deleteFile(filename);
     }
 
     //------------------------------------------------------------------------------------------------------------------

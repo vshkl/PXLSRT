@@ -13,4 +13,6 @@ public interface PreviewView extends MvpView {
     void retakePicture(String filename);
 
     void proceedToProcessing(String filename, SortingMode sortingMode);
+
+    void removeTempFile(String filename);
 }

@@ -22,10 +22,11 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     private String filename;
     private SortingMode sortingMode = SortingMode.BRIGHTNESS;
 
-    public void onStop() {
+    public void onDestroy() {
         if (disposable != null) {
             disposable.dispose();
         }
+        getViewState().removeTempFile(filename);
     }
 
     public void setFilename(String filename) {
@@ -49,6 +50,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     }
 
     public void retakePicture() {
+        getViewState().removeTempFile(filename);
         getViewState().retakePicture(filename);
     }
 
