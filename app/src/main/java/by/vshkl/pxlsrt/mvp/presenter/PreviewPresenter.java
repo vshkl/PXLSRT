@@ -19,12 +19,21 @@ import io.reactivex.schedulers.Schedulers;
 public class PreviewPresenter extends MvpPresenter<PreviewView> {
 
     private Disposable disposable;
+    private String filename;
     private SortingMode sortingMode = SortingMode.BRIGHTNESS;
 
     public void onStop() {
         if (disposable != null) {
             disposable.dispose();
         }
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void setSortingMode(SortingMode sortingMode) {
+        this.sortingMode = sortingMode;
     }
 
     public void setPreviewImage(FileInputStream fis) {
@@ -44,6 +53,8 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     }
 
     public void proceedToProcessing() {
-        getViewState().proceedToProcessing();
+        if (filename != null) {
+            getViewState().proceedToProcessing(filename, sortingMode);
+        }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -14,15 +16,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import by.vshkl.pxlsrt.R;
+import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.presenter.PreviewPresenter;
 import by.vshkl.pxlsrt.mvp.view.PreviewView;
 
-public class PreviewActivity extends MvpAppCompatActivity implements PreviewView {
+public class PreviewActivity extends MvpAppCompatActivity implements PreviewView, OnCheckedChangeListener {
 
     public static final String EXTRA_FILENAME = "PreviewActivity.filename";
-    private String filename;
 
     @BindView(R.id.iv_preview) ImageView ivPreview;
+    @BindView(R.id.rg_settings) RadioGroup rgSettings;
 
     @InjectPresenter PreviewPresenter presenter;
 
@@ -31,6 +34,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
+        rgSettings.setOnCheckedChangeListener(this);
         processIntentExtra();
     }
 
@@ -52,19 +56,19 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         presenter.proceedToProcessing();
     }
 
-    @OnClick(R.id.tv_black)
-    void onBlackClicked() {
-
-    }
-
-    @OnClick(R.id.tv_brightness)
-    void onBrightnessClicked() {
-
-    }
-
-    @OnClick(R.id.tv_white)
-    void onWhiteClicked() {
-
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.rb_black:
+                presenter.setSortingMode(SortingMode.BLACK);
+                break;
+            case R.id.rb_brightness:
+                presenter.setSortingMode(SortingMode.BRIGHTNESS);
+                break;
+            case R.id.rb_white:
+                presenter.setSortingMode(SortingMode.WHITE);
+                break;
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -80,9 +84,10 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     }
 
     @Override
-    public void proceedToProcessing() {
+    public void proceedToProcessing(String filename, SortingMode sortingMode) {
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultActivity.EXTRA_FILENAME, filename);
+        intent.putExtra(ResultActivity.EXTRA_SORTING_MODE, sortingMode);
         startActivity(intent);
     }
 
@@ -91,9 +96,10 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     private void processIntentExtra() {
         Intent intent = getIntent();
         if (intent != null) {
-            filename = intent.getStringExtra(EXTRA_FILENAME);
+            String filename = intent.getStringExtra(EXTRA_FILENAME);
             if (filename != null) {
                 try {
+                    presenter.setFilename(filename);
                     presenter.setPreviewImage(this.openFileInput(filename));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

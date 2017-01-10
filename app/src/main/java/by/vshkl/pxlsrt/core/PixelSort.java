@@ -7,6 +7,7 @@ import android.graphics.Color;
 import java.io.FileInputStream;
 import java.util.Arrays;
 
+import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -14,7 +15,7 @@ import io.reactivex.ObservableOnSubscribe;
 
 public class PixelSort {
 
-    public static Observable<Bitmap> sort(final FileInputStream fis) {
+    public static Observable<Bitmap> sort(final FileInputStream fis, final SortingMode sortingMode) {
         return Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {

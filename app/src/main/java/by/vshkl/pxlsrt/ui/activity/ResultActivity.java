@@ -16,13 +16,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import by.vshkl.pxlsrt.R;
+import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.presenter.ResultPresenter;
 import by.vshkl.pxlsrt.mvp.view.ResultView;
 
 public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     public static final String EXTRA_FILENAME = "ResultActivity.filename";
-    private String filename;
+    public static final String EXTRA_SORTING_MODE = "ResultActivity.sorting_mode";
 
     @BindView(R.id.iv_result) ImageView ivResult;
     @BindView(R.id.pb_loading) AVLoadingIndicatorView pbProgress;
@@ -103,9 +104,12 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     private void processIntentExtra() {
         Intent intent = getIntent();
         if (intent != null) {
-            filename = intent.getStringExtra(EXTRA_FILENAME);
-            if (filename != null) {
+            String filename = intent.getStringExtra(EXTRA_FILENAME);
+            SortingMode sortingMode = (SortingMode) intent.getSerializableExtra(EXTRA_SORTING_MODE);
+            if (filename != null && sortingMode != null) {
                 try {
+                    presenter.setFilename(filename);
+                    presenter.setSortingMode(sortingMode);
                     presenter.processImage(this.openFileInput(filename));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
