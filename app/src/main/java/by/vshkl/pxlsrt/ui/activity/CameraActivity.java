@@ -63,9 +63,9 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     }
 
     @Override
-    protected void onStop() {
-        presenter.onStop();
-        super.onStop();
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     //------------------------------------------------------------------------------------------------------------------

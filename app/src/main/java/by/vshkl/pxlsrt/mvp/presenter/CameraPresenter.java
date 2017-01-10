@@ -19,7 +19,7 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
 
     private Disposable disposable;
 
-    public void onStop() {
+    public void onDestroy() {
         if (disposable != null) {
             disposable.dispose();
         }
