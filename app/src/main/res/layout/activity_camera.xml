@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="by.vshkl.pxlsrt.ui.activity.CameraActivity"
+    >
+
+    <by.vshkl.pxlsrt.ui.customview.SquareView
+        android:id="@+id/container_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.cameraview.CameraView
+            android:id="@+id/cv_camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:keepScreenOn="true"
+            app:aspectRatio="1:1"
+            app:autoFocus="true"
+            app:facing="back"
+            />
+
+        <by.vshkl.pxlsrt.ui.customview.GridView
+            android:id="@+id/gv_grid_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+    </by.vshkl.pxlsrt.ui.customview.SquareView>
+
+    <LinearLayout
+        android:id="@+id/container_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_below="@+id/container_camera"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/iv_grid"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            app:srcCompat="@drawable/ic_grid"
+            />
+
+        <ImageView
+            android:id="@+id/iv_camera"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            app:srcCompat="@drawable/ic_rotate"
+            />
+
+        <ImageView
+            android:id="@+id/iv_flash"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            app:srcCompat="@drawable/ic_flash"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_shutter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/container_buttons"
+        android:padding="16dp"
+        app:srcCompat="@drawable/ic_camera"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "by.vshkl.pxlsrt"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "0.1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile project(':library')
+    // Support
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    // Butter knife
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    // Moxy
+    compile 'com.arello-mobile:moxy:1.4.3'
+    provided 'com.arello-mobile:moxy-compiler:1.4.3'
+    apt 'com.arello-mobile:moxy-compiler:1.4.3'
+    compile 'com.arello-mobile:moxy-app-compat:1.4.3'
+    // RxJava2 & RxAndroid2
+    compile 'io.reactivex.rxjava2:rxjava:2.0.2'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // Progress indicator
+    compile 'com.wang.avi:library:2.1.3'
+}
