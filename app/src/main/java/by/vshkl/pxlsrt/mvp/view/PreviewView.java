@@ -10,5 +10,5 @@ public interface PreviewView extends MvpView {
 
     void retakePicture();
 
-    void proceedToProcessing();
+    void proceedToProcessing(String filename);
 }

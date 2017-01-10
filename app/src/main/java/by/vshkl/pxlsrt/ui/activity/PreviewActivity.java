@@ -23,7 +23,6 @@ import by.vshkl.pxlsrt.mvp.view.PreviewView;
 public class PreviewActivity extends MvpAppCompatActivity implements PreviewView, OnCheckedChangeListener {
 
     public static final String EXTRA_FILENAME = "PreviewActivity.filename";
-    private String filename;
 
     @BindView(R.id.iv_preview) ImageView ivPreview;
     @BindView(R.id.rg_settings) RadioGroup rgSettings;
@@ -85,7 +84,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     }
 
     @Override
-    public void proceedToProcessing() {
+    public void proceedToProcessing(String filename) {
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultActivity.EXTRA_FILENAME, filename);
         startActivity(intent);
@@ -96,9 +95,10 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     private void processIntentExtra() {
         Intent intent = getIntent();
         if (intent != null) {
-            filename = intent.getStringExtra(EXTRA_FILENAME);
+            String filename = intent.getStringExtra(EXTRA_FILENAME);
             if (filename != null) {
                 try {
+                    presenter.setFilename(filename);
                     presenter.setPreviewImage(this.openFileInput(filename));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
