@@ -2,6 +2,7 @@ package by.vshkl.pxlsrt.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         ButterKnife.bind(this);
+        setupTypeface();
         processIntentExtra();
     }
 
@@ -178,5 +180,10 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupTypeface() {
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        tvMessage.setTypeface(typeface);
     }
 }

@@ -2,8 +2,10 @@ package by.vshkl.pxlsrt.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -26,6 +28,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     @BindView(R.id.iv_preview) ImageView ivPreview;
     @BindView(R.id.rg_settings) RadioGroup rgSettings;
+    @BindView(R.id.rb_black) RadioButton rbBlack;
+    @BindView(R.id.rb_brightness) RadioButton rbBrightness;
+    @BindView(R.id.rb_white) RadioButton rbWhite;
 
     @InjectPresenter PreviewPresenter presenter;
 
@@ -34,6 +39,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
+        setupTypeface();
         rgSettings.setOnCheckedChangeListener(this);
         processIntentExtra();
     }
@@ -114,5 +120,12 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
                 }
             }
         }
+    }
+
+    private void setupTypeface() {
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+        rbBlack.setTypeface(typeface);
+        rbBrightness.setTypeface(typeface);
+        rbWhite.setTypeface(typeface);
     }
 }
