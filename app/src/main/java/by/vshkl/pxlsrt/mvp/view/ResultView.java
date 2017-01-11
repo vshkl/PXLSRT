@@ -16,6 +16,8 @@ public interface ResultView extends MvpView {
 
     void setResultPicture(Bitmap bitmap);
 
+    void setResultMessage(String timeDelta);
+
     void retakePicture(String filename);
 
     void editPicture(String filename);

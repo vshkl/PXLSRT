@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 
 import by.vshkl.pxlsrt.core.PixelSort;
 import by.vshkl.pxlsrt.core.utils.TempStorageUtils;
+import by.vshkl.pxlsrt.core.utils.TimeUtils;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.view.ResultView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,6 +48,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     }
 
     public void processImage(FileInputStream fis) {
+        final long start = System.currentTimeMillis();
         disposable = PixelSort.sort(fis, sortingMode)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,6 +57,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                     public void accept(Bitmap bitmap) throws Exception {
                         getViewState().hideProgress();
                         getViewState().setResultPicture(bitmap);
+                        getViewState().setResultMessage(TimeUtils.getReadableTime(System.currentTimeMillis() - start));
                         getViewState().showButtons();
                     }
                 });

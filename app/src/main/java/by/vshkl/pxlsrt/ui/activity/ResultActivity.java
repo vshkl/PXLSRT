@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -33,6 +34,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     @BindView(R.id.iv_result) ImageView ivResult;
     @BindView(R.id.pb_loading) AVLoadingIndicatorView pbProgress;
+    @BindView(R.id.tv_message) TextView tvMessage;
     @BindView(R.id.iv_new) ImageView ivNew;
     @BindView(R.id.iv_edit) ImageView ivEdit;
     @BindView(R.id.iv_save) ImageView ivSave;
@@ -102,6 +104,11 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     }
 
     @Override
+    public void setResultMessage(String timeDelta) {
+        tvMessage.setText(getString(R.string.message_photo_processed, timeDelta));
+    }
+
+    @Override
     public void retakePicture(String filename) {
         Intent intent = new Intent(this, CameraActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -130,7 +137,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     @Override
     public void scanMediaStore(String path) {
-        MediaScannerConnection.scanFile(this, new String[] {path}, null, null);
+        MediaScannerConnection.scanFile(this, new String[]{path}, null, null);
     }
 
     //------------------------------------------------------------------------------------------------------------------

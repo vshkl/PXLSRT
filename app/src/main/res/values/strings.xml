@@ -3,4 +3,6 @@
     <string name="settings_black">black</string>
     <string name="settings_brightness">brightness</string>
     <string name="settings_white">white</string>
+    <string name="message_photo_processing">Image is being processed…</string>
+    <string name="message_photo_processed">Image processed in %1$s</string>
 </resources>
