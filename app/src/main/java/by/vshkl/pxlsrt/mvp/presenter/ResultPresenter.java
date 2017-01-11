@@ -25,6 +25,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     private Disposable disposable;
     private String filename;
     private SortingMode sortingMode;
+    String path;
 
     public void onDestroy() {
         getViewState().removeTempFile(filename);
@@ -35,6 +36,10 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public void setSortingMode(SortingMode sortingMode) {
@@ -62,6 +67,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                 .onErrorReturn(new Function<Throwable, Boolean>() {
                     @Override
                     public Boolean apply(Throwable throwable) throws Exception {
+                        path = null;
                         return null;
                     }
                 })
@@ -70,6 +76,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
                             getViewState().hideSaveButton();
+                            getViewState().scanMediaStore(path);
                         }
                     }
                 });

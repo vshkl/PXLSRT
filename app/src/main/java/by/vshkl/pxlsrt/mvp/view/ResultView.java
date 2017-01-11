@@ -23,4 +23,6 @@ public interface ResultView extends MvpView {
     void savePicture(String filename, String directory);
 
     void removeTempFile(String filename);
+
+    void scanMediaStore(String path);
 }

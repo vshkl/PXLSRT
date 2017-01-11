@@ -3,6 +3,7 @@ package by.vshkl.pxlsrt.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -127,6 +128,11 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
         deleteFile(filename);
     }
 
+    @Override
+    public void scanMediaStore(String path) {
+        MediaScannerConnection.scanFile(this, new String[] {path}, null, null);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
     private void processIntentExtra() {
@@ -161,6 +167,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
         try {
             presenter.saveResultPicture(
                     new FileOutputStream(file), ((BitmapDrawable) ivResult.getDrawable()).getBitmap());
+            presenter.setPath(file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
