@@ -41,6 +41,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     @BindView(R.id.iv_grid) ImageView ivGrid;
     @BindView(R.id.iv_camera) ImageView ivCamera;
     @BindView(R.id.iv_flash) ImageView ivFlash;
+
     @InjectPresenter CameraPresenter presenter;
 
     @Override

@@ -80,7 +80,7 @@
             android:layout_weight="1"
             android:paddingBottom="48dp"
             android:paddingTop="48dp"
-            app:srcCompat="@drawable/ic_camera_new"
+            app:srcCompat="@drawable/ic_close"
             />
 
         <ImageView
