@@ -95,7 +95,6 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     }
 
     public void savePicture() {
-        getViewState().removeTempFile(filename);
         getViewState().savePicture(filename, OUTPUT_DIRECTORY);
     }
 }
