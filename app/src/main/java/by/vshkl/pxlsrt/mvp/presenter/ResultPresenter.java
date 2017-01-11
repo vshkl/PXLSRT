@@ -95,6 +95,6 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     }
 
     public void savePicture() {
-        getViewState().savePicture(filename, OUTPUT_DIRECTORY);
+        getViewState().savePicture(OUTPUT_DIRECTORY);
     }
 }

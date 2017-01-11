@@ -32,6 +32,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     public static final String EXTRA_FILENAME = "ResultActivity.filename";
     public static final String EXTRA_SORTING_MODE = "ResultActivity.sorting_mode";
+    private static final String RESULT_FNAME_PREFIX = "PXLSRT_";
 
     @BindView(R.id.iv_result) ImageView ivResult;
     @BindView(R.id.pb_loading) AVLoadingIndicatorView pbProgress;
@@ -128,8 +129,8 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     }
 
     @Override
-    public void savePicture(String filename, String directory) {
-        processSavePicture(filename, directory);
+    public void savePicture(String directory) {
+        processSavePicture(directory);
     }
 
     @Override
@@ -161,13 +162,14 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
         }
     }
 
-    private void processSavePicture(String filename, String directory) {
+    private void processSavePicture(String directory) {
         File file = new File(new StringBuilder()
                 .append(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES))
                 .append(File.separator)
                 .append(directory)
                 .append(File.separator)
-                .append(filename)
+                .append(RESULT_FNAME_PREFIX)
+                .append(System.currentTimeMillis())
                 .append(".png")
                 .toString());
         if (!file.getParentFile().exists()) {

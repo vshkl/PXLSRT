@@ -22,7 +22,7 @@ public interface ResultView extends MvpView {
 
     void editPicture(String filename);
 
-    void savePicture(String filename, String directory);
+    void savePicture(String directory);
 
     void removeTempFile(String filename);
 
