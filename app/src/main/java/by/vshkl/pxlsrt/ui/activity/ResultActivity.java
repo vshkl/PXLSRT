@@ -32,6 +32,8 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     @BindView(R.id.iv_result) ImageView ivResult;
     @BindView(R.id.pb_loading) AVLoadingIndicatorView pbProgress;
+    @BindView(R.id.iv_new) ImageView ivNew;
+    @BindView(R.id.iv_edit) ImageView ivEdit;
     @BindView(R.id.iv_save) ImageView ivSave;
 
     @InjectPresenter ResultPresenter presenter;
@@ -52,9 +54,14 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     //------------------------------------------------------------------------------------------------------------------
 
-    @OnClick(R.id.iv_retake)
-    void onRetakeClicked() {
+    @OnClick(R.id.iv_new)
+    void onNewClicked() {
         presenter.retakePicture();
+    }
+
+    @OnClick(R.id.iv_edit)
+    void onEditClicked() {
+        presenter.editPicture();
     }
 
     @OnClick(R.id.iv_save)
@@ -77,13 +84,15 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     }
 
     @Override
-    public void enableSaveButton() {
-        ivSave.setEnabled(true);
+    public void showButtons() {
+        ivNew.setImageResource(R.drawable.ic_camera_new);
+        ivEdit.setVisibility(View.VISIBLE);
+        ivSave.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void disableSaveButton() {
-        ivSave.setEnabled(false);
+    public void hideSaveButton() {
+        ivSave.setVisibility(View.GONE);
     }
 
     @Override
@@ -94,6 +103,15 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     @Override
     public void retakePicture(String filename) {
         Intent intent = new Intent(this, CameraActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void editPicture(String filename) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra(PreviewActivity.EXTRA_FILENAME, filename);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

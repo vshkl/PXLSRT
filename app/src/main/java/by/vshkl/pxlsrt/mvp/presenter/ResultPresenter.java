@@ -49,8 +49,8 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                     @Override
                     public void accept(Bitmap bitmap) throws Exception {
                         getViewState().hideProgress();
-                        getViewState().enableSaveButton();
                         getViewState().setResultPicture(bitmap);
+                        getViewState().showButtons();
                     }
                 });
     }
@@ -69,7 +69,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            // File saved
+                            getViewState().hideSaveButton();
                         }
                     }
                 });
@@ -78,6 +78,10 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     public void retakePicture() {
         getViewState().removeTempFile(filename);
         getViewState().retakePicture(filename);
+    }
+
+    public void editPicture() {
+        getViewState().editPicture(filename);
     }
 
     public void savePicture() {

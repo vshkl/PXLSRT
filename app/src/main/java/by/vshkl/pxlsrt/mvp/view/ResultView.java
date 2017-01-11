@@ -10,13 +10,15 @@ public interface ResultView extends MvpView {
 
     void hideProgress();
 
-    void enableSaveButton();
+    void showButtons();
 
-    void disableSaveButton();
+    void hideSaveButton();
 
     void setResultPicture(Bitmap bitmap);
 
     void retakePicture(String filename);
+
+    void editPicture(String filename);
 
     void savePicture(String filename, String directory);
 
