@@ -25,6 +25,26 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
         }
     }
 
+    public void checkPermissions() {
+        getViewState().checkPermissions();
+    }
+
+    public void showPermissionsRationale() {
+        getViewState().showPermissionsRationale();
+    }
+
+    public void requestPermissions() {
+        getViewState().requestPermissions();
+    }
+
+    public void showPermissionsMessage(int resId) {
+        getViewState().showPermissionMessage(resId);
+    }
+
+    public void showAppSystemSettings() {
+        getViewState().showAppSystemSettings();
+    }
+
     public void toggleGrid() {
         getViewState().toggleGrid();
     }
