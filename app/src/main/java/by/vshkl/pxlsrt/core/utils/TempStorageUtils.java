@@ -2,6 +2,7 @@ package by.vshkl.pxlsrt.core.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,12 +21,28 @@ public class TempStorageUtils {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
-                long start = System.currentTimeMillis();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                System.out.println("Decode bitmap -> " + (System.currentTimeMillis() - start));
-                start = System.currentTimeMillis();
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getWidth());
-                System.out.println("Trim bitmap -> " + (System.currentTimeMillis() - start));
+                storeFile(fos, bitmap)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    emitter.onNext(fname);
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
+    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String fname, final Uri uri) {
+        return Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
+                Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getWidth());
                 storeFile(fos, bitmap)
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Consumer<Boolean>() {
@@ -85,9 +102,7 @@ public class TempStorageUtils {
         return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
-                long start = System.currentTimeMillis();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                System.out.println("Compress bitmap -> " + (System.currentTimeMillis() - start));
                 bitmap.recycle();
                 try {
                     fos.flush();
