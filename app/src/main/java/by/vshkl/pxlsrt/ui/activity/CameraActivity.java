@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -270,7 +271,15 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @Override
     public void openCropper(String image) {
+        UCrop.Options options = new UCrop.Options();
+        options.setToolbarTitle(getString(R.string.title_cropper));
+        options.setCompressionQuality(100);
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setHideBottomControls(true);
+        options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         UCrop.of(Uri.fromFile(new File(image)), Uri.fromFile(new File(image)))
+                .withOptions(options)
                 .withAspectRatio(1, 1)
                 .start(this);
     }
