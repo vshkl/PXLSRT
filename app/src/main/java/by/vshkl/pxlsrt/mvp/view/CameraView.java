@@ -22,6 +22,8 @@ public interface CameraView extends MvpView {
 
     void openGallery();
 
+    void openCropper(String image);
+
     void takePicture();
 
     void openSettings();

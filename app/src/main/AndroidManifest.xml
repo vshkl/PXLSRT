@@ -23,6 +23,14 @@
             />
         <activity android:name=".ui.activity.ResultActivity"
             />
+        <activity
+            android:name="com.tangxiaolv.telegramgallery.GalleryActivity"
+            />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>

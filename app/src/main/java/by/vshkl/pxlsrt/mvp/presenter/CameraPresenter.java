@@ -1,5 +1,7 @@
 package by.vshkl.pxlsrt.mvp.presenter;
 
+import android.net.Uri;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -59,6 +61,10 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
         getViewState().openGallery();
     }
 
+    public void openCropper(String image) {
+        getViewState().openCropper(image);
+    }
+
     public void takePicture() {
         getViewState().takePicture();
     }
@@ -69,6 +75,18 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
 
     public void processPicture(FileOutputStream fos, String fname, byte[] data) {
         disposable = TempStorageUtils.saveTempBitmap(fos, fname, data)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String string) throws Exception {
+                        getViewState().sendPictureData(string);
+                    }
+                });
+    }
+
+    public void processPicture(FileOutputStream fos, String fname, Uri uri) {
+        disposable = TempStorageUtils.saveTempBitmap(fos, fname, uri)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {

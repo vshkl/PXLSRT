@@ -20,9 +20,13 @@ import android.widget.RelativeLayout;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.cameraview.CameraView;
+import com.tangxiaolv.telegramgallery.GalleryActivity;
+import com.tangxiaolv.telegramgallery.GalleryConfig;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +38,7 @@ import by.vshkl.pxlsrt.ui.customview.GridView;
 public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxlsrt.mvp.view.CameraView {
 
     private static final int PERMISSION_REQUEST = 42;
+    private static final int PICK_PIC_REQUEST = 1337;
     private static final String FNAME_PREFIX = "PXLSRT_";
 
     @BindView(R.id.rl_root) RelativeLayout rlRoot;
@@ -65,6 +70,25 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_PIC_REQUEST) {
+                List<String> photos = (List<String>) data.getSerializableExtra(GalleryActivity.PHOTOS);
+                presenter.openCropper(photos.get(0).toString());
+            }
+            if (requestCode == UCrop.REQUEST_CROP) {
+                try {
+                    String filename = FNAME_PREFIX + System.currentTimeMillis();
+                    presenter.processPicture(
+                            openFileOutput(filename, Context.MODE_PRIVATE), filename, UCrop.getOutput(data));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -116,8 +140,8 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     }
 
     @OnClick(R.id.iv_gallery)
-    void onGelleryClickd() {
-
+    void onGalleryClicked() {
+        presenter.openGallery();
     }
 
     @OnClick(R.id.iv_shutter)
@@ -127,7 +151,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @OnClick(R.id.iv_settings)
     void onSettingsClicked() {
-
+        presenter.openSettings();
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -237,7 +261,18 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @Override
     public void openGallery() {
+        GalleryConfig config = new GalleryConfig.Build()
+                .singlePhoto(true)
+                .filterMimeTypes(new String[]{"image/*"})
+                .build();
+        GalleryActivity.openActivity(this, PICK_PIC_REQUEST, config);
+    }
 
+    @Override
+    public void openCropper(String image) {
+        UCrop.of(Uri.fromFile(new File(image)), Uri.fromFile(new File(image)))
+                .withAspectRatio(1, 1)
+                .start(this);
     }
 
     @Override
