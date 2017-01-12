@@ -15,8 +15,6 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class CameraPresenter extends MvpPresenter<CameraView> {
 
-    public static final int IMAGE_SIZE_PX = 1000;
-
     private Disposable disposable;
 
     public void onDestroy() {

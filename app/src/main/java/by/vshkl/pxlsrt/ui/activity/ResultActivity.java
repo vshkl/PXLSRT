@@ -170,14 +170,13 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
                 .append(File.separator)
                 .append(RESULT_FNAME_PREFIX)
                 .append(System.currentTimeMillis())
-                .append(".png")
+                .append(".jpeg")
                 .toString());
         if (!file.getParentFile().exists()) {
             file.mkdirs();
         }
         try {
-            presenter.saveResultPicture(
-                    new FileOutputStream(file), ((BitmapDrawable) ivResult.getDrawable()).getBitmap());
+            presenter.saveResultPicture(new FileOutputStream(file), ((BitmapDrawable) ivResult.getDrawable()).getBitmap());
             presenter.setPath(file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();

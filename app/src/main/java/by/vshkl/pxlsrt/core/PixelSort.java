@@ -11,7 +11,6 @@ import by.vshkl.pxlsrt.core.mode.Black;
 import by.vshkl.pxlsrt.core.mode.Brightness;
 import by.vshkl.pxlsrt.core.mode.White;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
-import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -22,14 +21,13 @@ public class PixelSort {
         return Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {
-                int height = CameraPresenter.IMAGE_SIZE_PX;
-                int width = CameraPresenter.IMAGE_SIZE_PX;
-
                 int currentRow = 0;
                 int currentColumn = 0;
 
                 // Get array of pixels
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                int height = bitmap.getHeight();
+                int width = bitmap.getWidth();
 
                 IntBuffer buffer = IntBuffer.allocate(width * height);
                 bitmap.copyPixelsToBuffer(buffer);
