@@ -115,9 +115,19 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         presenter.toggleFlash();
     }
 
+    @OnClick(R.id.iv_gallery)
+    void onGelleryClickd() {
+
+    }
+
     @OnClick(R.id.iv_shutter)
     void onShutterClicked() {
         presenter.takePicture();
+    }
+
+    @OnClick(R.id.iv_settings)
+    void onSettingsClicked() {
+
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -226,8 +236,18 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     }
 
     @Override
+    public void openGallery() {
+
+    }
+
+    @Override
     public void takePicture() {
         cvCamera.takePicture();
+    }
+
+    @Override
+    public void openSettings() {
+
     }
 
     @Override

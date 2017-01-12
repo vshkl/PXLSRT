@@ -55,8 +55,16 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
         getViewState().toggleFlash();
     }
 
+    public void openGallery() {
+        getViewState().openGallery();
+    }
+
     public void takePicture() {
         getViewState().takePicture();
+    }
+
+    public void openSettings() {
+        getViewState().openSettings();
     }
 
     public void processPicture(FileOutputStream fos, String fname, byte[] data) {

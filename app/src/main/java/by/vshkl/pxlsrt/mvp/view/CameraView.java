@@ -20,7 +20,11 @@ public interface CameraView extends MvpView {
 
     void toggleFlash();
 
+    void openGallery();
+
     void takePicture();
+
+    void openSettings();
 
     void sendPictureData(String filename);
 
