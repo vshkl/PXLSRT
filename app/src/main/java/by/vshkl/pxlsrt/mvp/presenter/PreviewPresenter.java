@@ -23,10 +23,10 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     private SortingMode sortingMode = SortingMode.BRIGHTNESS;
 
     public void onDestroy() {
+        getViewState().removeTempFile(filename);
         if (disposable != null) {
             disposable.dispose();
         }
-        getViewState().removeTempFile(filename);
     }
 
     public void setFilename(String filename) {

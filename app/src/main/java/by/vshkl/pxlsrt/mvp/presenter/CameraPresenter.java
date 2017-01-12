@@ -70,4 +70,8 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
                     }
                 });
     }
+
+    public void cleanTempFiles() {
+        getViewState().cleanTempFiles();
+    }
 }

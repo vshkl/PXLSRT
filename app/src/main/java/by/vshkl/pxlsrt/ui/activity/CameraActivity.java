@@ -21,6 +21,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.cameraview.CameraView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import butterknife.BindView;
@@ -49,6 +50,8 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         ButterKnife.bind(this);
+
+        presenter.cleanTempFiles();
 
         cvCamera.addCallback(new CameraView.Callback() {
             @Override
@@ -232,6 +235,19 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putExtra(PreviewActivity.EXTRA_FILENAME, filename);
         startActivity(intent);
+    }
+
+    @Override
+    public void cleanTempFiles() {
+        new Runnable() {
+            @Override
+            public void run() {
+                File[] files = getFilesDir().listFiles();
+                for (File f : files) {
+                    deleteFile(f.getName());
+                }
+            }
+        }.run();
     }
 
     //------------------------------------------------------------------------------------------------------------------

@@ -23,4 +23,6 @@ public interface CameraView extends MvpView {
     void takePicture();
 
     void sendPictureData(String filename);
+
+    void cleanTempFiles();
 }
