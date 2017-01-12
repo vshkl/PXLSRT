@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.FileInputStream;
+import java.nio.IntBuffer;
 import java.util.Arrays;
 
 import by.vshkl.pxlsrt.core.mode.Black;
@@ -29,16 +30,11 @@ public class PixelSort {
 
                 // Get array of pixels
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);
-                int[] pixels = new int[width * height];
-                int k = 0;
-                while (k < width * height) {
-                    for (int row = 0; row < height; row++) {
-                        for (int col = 0; col < width; col++) {
-                            pixels[k] = bitmap.getPixel(row, col);
-                            k++;
-                        }
-                    }
-                }
+
+                IntBuffer buffer = IntBuffer.allocate(width * height);
+                bitmap.copyPixelsToBuffer(buffer);
+                int[] pixels = buffer.array();
+
                 bitmap.recycle();
 
                 switch (sortingMode) {
@@ -78,15 +74,9 @@ public class PixelSort {
 
                 // Set sorted pixels to bitmap
                 bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                k = 0;
-                while (k < width * height) {
-                    for (int row = 0; row < height; row++) {
-                        for (int col = 0; col < width; col++) {
-                            bitmap.setPixel(row, col, pixels[k]);
-                            k++;
-                        }
-                    }
-                }
+                buffer.clear();
+                IntBuffer.wrap(pixels);
+                bitmap.copyPixelsFromBuffer(buffer);
 
                 // Emit resulting bitmap
                 emitter.onNext(bitmap);
