@@ -71,6 +71,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         ButterKnife.bind(this);
 
         presenter.cleanTempFiles();
+        cvCamera.addCallback(callback);
     }
 
     @Override
@@ -98,7 +99,6 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 cvCamera.start();
-                cvCamera.addCallback(callback);
             } else {
                 cvCamera.stop();
                 presenter.showPermissionsMessage(R.string.permission_denied);
@@ -115,7 +115,6 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     @Override
     protected void onPause() {
         cvCamera.stop();
-        cvCamera.removeCallback(callback);
         super.onPause();
     }
 
