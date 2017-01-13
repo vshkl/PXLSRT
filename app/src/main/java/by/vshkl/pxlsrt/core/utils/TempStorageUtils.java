@@ -22,7 +22,8 @@ public class TempStorageUtils {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getWidth());
+                int dimension = bitmap.getWidth();
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, dimension, dimension);
                 storeFile(fos, bitmap)
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Consumer<Boolean>() {
@@ -42,7 +43,8 @@ public class TempStorageUtils {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
                 Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getWidth());
+                int dimension = bitmap.getWidth();
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, dimension, dimension);
                 storeFile(fos, bitmap)
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Consumer<Boolean>() {
