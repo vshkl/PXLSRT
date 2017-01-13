@@ -2,6 +2,7 @@ package by.vshkl.pxlsrt.core.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 
 import java.io.FileInputStream;
@@ -27,7 +28,9 @@ public class TempStorageUtils {
                 if (width < height) {
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, width);
                 } else {
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, height, height);
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(90);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, height, height, matrix, true);
                 }
                 storeFile(fos, bitmap)
                         .subscribeOn(Schedulers.io())

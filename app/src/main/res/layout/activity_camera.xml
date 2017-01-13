@@ -22,7 +22,6 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:keepScreenOn="true"
-            app:aspectRatio="1:1"
             app:autoFocus="true"
             app:facing="back"
             />
