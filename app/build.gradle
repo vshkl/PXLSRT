@@ -1,5 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 
 android {
     compileSdkVersion 25
@@ -9,9 +24,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
-        versionName "0.6.1"
+        versionName "0.6.2"
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -29,10 +43,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
     compile project(':library')
     // Support
     compile 'com.android.support:appcompat-v7:25.1.0'
@@ -54,4 +64,8 @@ dependencies {
     compile 'com.library.tangxiaolv:telegramgallery:1.0.3'
     // Crop
     compile 'com.yalantis:ucrop:2.2.0-native'
+    // Crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
 }

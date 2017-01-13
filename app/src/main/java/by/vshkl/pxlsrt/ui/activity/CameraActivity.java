@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.cameraview.CameraView;
 import com.tangxiaolv.telegramgallery.GalleryActivity;
 import com.tangxiaolv.telegramgallery.GalleryConfig;
@@ -35,6 +36,7 @@ import butterknife.OnClick;
 import by.vshkl.pxlsrt.R;
 import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import by.vshkl.pxlsrt.ui.customview.GridView;
+import io.fabric.sdk.android.Fabric;
 
 public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxlsrt.mvp.view.CameraView {
 
@@ -68,6 +70,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        Fabric.with(this, new Crashlytics());
         ButterKnife.bind(this);
 
         presenter.cleanTempFiles();
