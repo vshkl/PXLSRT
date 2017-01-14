@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <PreferenceCategory
+        android:key="@string/pref_category_image_key"
+        android:title="@string/pref_category_image_title"
+        >
+
+        <ListPreference
+            android:defaultValue="@string/pref_resolution_default"
+            android:dialogTitle="@string/pref_resolution_title"
+            android:entries="@array/pref_resolution_entries"
+            android:entryValues="@array/pref_resolution_values"
+            android:key="@string/pref_resolution_key"
+            android:summary="@string/pref_resolution_summary"
+            android:title="@string/pref_resolution_title"
+            />
+
+        <ListPreference
+            android:defaultValue="@string/pref_quality_default"
+            android:dialogTitle="@string/pref_quality_title"
+            android:entries="@array/pref_quality_entries"
+            android:entryValues="@array/pref_quality_values"
+            android:key="@string/pref_quality_key"
+            android:summary="@string/pref_quality_summary"
+            android:title="@string/pref_quality_title"
+            />
+
+        <ListPreference
+            android:defaultValue="@string/pref_format_default"
+            android:dialogTitle="@string/pref_format_title"
+            android:entries="@array/pref_format_entries"
+            android:entryValues="@array/pref_format_values"
+            android:key="@string/pref_format_key"
+            android:summary="@string/pref_format_summary"
+            android:title="@string/pref_format_title"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

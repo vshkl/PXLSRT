@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -34,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import by.vshkl.pxlsrt.R;
+import by.vshkl.pxlsrt.core.utils.PrefUtils;
 import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import by.vshkl.pxlsrt.ui.customview.GridView;
 import io.fabric.sdk.android.Fabric;
@@ -59,7 +59,8 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
             super.onPictureTaken(cameraView, data);
             try {
                 String filename = FNAME_PREFIX + System.currentTimeMillis();
-                presenter.processPicture(openFileOutput(filename, Context.MODE_PRIVATE), filename, data);
+                presenter.processPicture(openFileOutput(filename, Context.MODE_PRIVATE), filename, data,
+                        PrefUtils.getImageResolutionPref(getApplicationContext()));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -277,8 +278,8 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     public void openCropper(String image) {
         UCrop.Options options = new UCrop.Options();
         options.setToolbarTitle(getString(R.string.title_cropper));
-        options.setCompressionQuality(100);
-        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setCompressionQuality(PrefUtils.getImageQualityPref(getApplicationContext()));
+        options.setCompressionFormat(PrefUtils.getImageBitmapCompressFormatPref(getApplicationContext()));
         options.setHideBottomControls(true);
         options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
@@ -295,7 +296,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @Override
     public void openSettings() {
-
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     @Override

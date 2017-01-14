@@ -73,8 +73,8 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
         getViewState().openSettings();
     }
 
-    public void processPicture(FileOutputStream fos, String fname, byte[] data) {
-        disposable = TempStorageUtils.saveTempBitmap(fos, fname, data)
+    public void processPicture(FileOutputStream fos, String fname, byte[] data, int resolution) {
+        disposable = TempStorageUtils.saveTempBitmap(fos, fname, data, resolution)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {

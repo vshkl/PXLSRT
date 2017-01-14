@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import by.vshkl.pxlsrt.R;
+import by.vshkl.pxlsrt.core.utils.PrefUtils;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import by.vshkl.pxlsrt.mvp.presenter.ResultPresenter;
 import by.vshkl.pxlsrt.mvp.view.ResultView;
@@ -170,13 +171,15 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
                 .append(File.separator)
                 .append(RESULT_FNAME_PREFIX)
                 .append(System.currentTimeMillis())
-                .append(".jpeg")
+                .append(PrefUtils.getImageFormatPref(getApplicationContext()))
                 .toString());
         if (!file.getParentFile().exists()) {
             file.mkdirs();
         }
         try {
-            presenter.saveResultPicture(new FileOutputStream(file), ((BitmapDrawable) ivResult.getDrawable()).getBitmap());
+            presenter.saveResultPicture(new FileOutputStream(file),
+                    ((BitmapDrawable) ivResult.getDrawable()).getBitmap(),
+                    PrefUtils.getImageQualityPref(getApplicationContext()));
             presenter.setPath(file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();

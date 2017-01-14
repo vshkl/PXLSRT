@@ -36,6 +36,11 @@
             android:name="com.tangxiaolv.telegramgallery.GalleryActivity"
             android:screenOrientation="portrait"
             />
+
+        <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
