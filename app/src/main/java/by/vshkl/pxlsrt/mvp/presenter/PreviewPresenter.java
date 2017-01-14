@@ -21,6 +21,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     private Disposable disposable;
     private String filename;
     private SortingMode sortingMode = SortingMode.BRIGHTNESS;
+    private int color = 180;
 
     public void onDestroy() {
         getViewState().removeTempFile(filename);
@@ -37,6 +38,10 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
         this.sortingMode = sortingMode;
     }
 
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     public void setPreviewImage(FileInputStream fis) {
         disposable = TempStorageUtils.getTempBitmap(fis)
                 .subscribeOn(Schedulers.io())
@@ -49,6 +54,14 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
                 });
     }
 
+    public void showColorSeekBar() {
+        getViewState().showColorSeekBar();
+    }
+
+    public void hideColorSeekBar() {
+        getViewState().hideColorSeekBar();
+    }
+
     public void retakePicture() {
         getViewState().removeTempFile(filename);
         getViewState().retakePicture(filename);
@@ -56,7 +69,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
 
     public void proceedToProcessing() {
         if (filename != null) {
-            getViewState().proceedToProcessing(filename, sortingMode);
+            getViewState().proceedToProcessing(filename, sortingMode, color);
         }
     }
 }
