@@ -41,6 +41,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     @InjectPresenter PreviewPresenter presenter;
 
     private ColorSeekBar sbColor;
+    private View vSeekBarBacking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,23 +128,27 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
             initializeColorSeekBar();
         }
         sbColor.setVisibility(View.VISIBLE);
+        vSeekBarBacking.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideColorSeekBar() {
         sbColor.setVisibility(View.GONE);
+        vSeekBarBacking.setVisibility(View.GONE);
     }
 
     //------------------------------------------------------------------------------------------------------------------
 
     private void initializeColorSeekBar() {
+        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+                getResources().getDisplayMetrics());
         sbColor = new ColorSeekBar(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-                getResources().getDisplayMetrics());
         params.setMargins(0, px, 0, 0);
         sbColor.setLayoutParams(params);
+        sbColor.setBarHeight(2);
+        sbColor.setColorSeeds(getResources().getIntArray(R.array.hue_colors));
         sbColor.setBackground(ContextCompat.getDrawable(this, R.drawable.transparent));
         sbColor.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
             @Override
@@ -151,6 +156,17 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
                 presenter.setColor(color);
             }
         });
+
+        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
+                getResources().getDisplayMetrics());
+        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        vSeekBarBacking = new View(this);
+        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
+        params.setMargins(0, px, 0, 0);
+        vSeekBarBacking.setLayoutParams(params);
+        vSeekBarBacking.setBackgroundColor(ContextCompat.getColor(this, R.color.colorSeekBarBackground));
+
+        rlRoot.addView(vSeekBarBacking);
         rlRoot.addView(sbColor);
     }
 
