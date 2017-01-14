@@ -74,6 +74,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
             case R.id.rb_white:
                 presenter.setSortingMode(SortingMode.WHITE);
                 break;
+            case R.id.rb_hue:
+                presenter.setSortingMode(SortingMode.HUE);
+                break;
         }
     }
 

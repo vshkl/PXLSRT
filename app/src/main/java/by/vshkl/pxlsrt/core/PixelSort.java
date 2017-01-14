@@ -9,11 +9,14 @@ import java.util.Arrays;
 
 import by.vshkl.pxlsrt.core.mode.Black;
 import by.vshkl.pxlsrt.core.mode.Brightness;
+import by.vshkl.pxlsrt.core.mode.Hue;
 import by.vshkl.pxlsrt.core.mode.White;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+
+import static by.vshkl.pxlsrt.core.mode.Brightness.getFirstBrightY;
 
 public class PixelSort {
 
@@ -63,6 +66,16 @@ public class PixelSort {
                         }
                         while (currentRow < height - 1) {
                             pixels = sortRowBrightness(pixels, currentRow, width);
+                            currentRow++;
+                        }
+                        break;
+                    case HUE:
+                        while (currentColumn < width - 1) {
+                            pixels = sortColumnsHue(pixels, currentColumn, width, height);
+                            currentColumn++;
+                        }
+                        while (currentRow < height - 1) {
+                            pixels = sortRowHue(pixels, currentRow, width);
                             currentRow++;
                         }
                         break;
@@ -213,8 +226,58 @@ public class PixelSort {
         int y = 0;
         int ye = 0;
         while (ye < height - 1) {
-            y = Brightness.getFirstBrightY(pixels, x, y, width, height);
+            y = getFirstBrightY(pixels, x, y, width, height);
             ye = Brightness.getNextDarkY(pixels, x, y, width, height);
+            if (y < 0) {
+                break;
+            }
+            int sortedLength = ye - y;
+            int[] sorted = new int[sortedLength];
+            for (int i = 0; i < sortedLength; i++) {
+                sorted[i] = pixels[x + (i + y) * width];
+            }
+            Arrays.sort(sorted);
+            for (int i = 0; i < sortedLength; i++) {
+                pixels[x + (i + y) * width] = sorted[i];
+            }
+            y = ye + 1;
+        }
+        return pixels;
+    }
+
+    //---[ Sorting hue ]------------------------------------------------------------------------------------------------
+
+    static int[] sortRowHue(int[] pixels, int currentRow, int width) {
+        int y = currentRow;
+        int x = 0;
+        int xe = 0;
+        while (xe < width - 1) {
+            x = Hue.getFirstHueX(pixels, x, y, width);
+            xe = Hue.getNextNotHueX(pixels, x, y, width);
+            if (x < 0) {
+                break;
+            }
+            int sortedLength = xe - x;
+            int[] sorted = new int[sortedLength];
+            for (int i = 0; i < sortedLength; i++) {
+                sorted[i] = pixels[x + i + y * width];
+            }
+            Arrays.sort(sorted);
+            for (int i = 0; i < sortedLength; i++) {
+                pixels[x + i + y * width] = sorted[i];
+            }
+            x = xe + 1;
+        }
+        return pixels;
+    }
+
+    static int[] sortColumnsHue(int[] pixels, int currentColumn, int width, int height) {
+        int x = currentColumn;
+        int y = 0;
+        int ye = 0;
+        while (ye < height - 1) {
+            y = Hue.getFirstHueY(pixels, x, y, width, height);
+            ye = Hue.getNextNotHueY(pixels, x, y, width, height);
             if (y < 0) {
                 break;
             }

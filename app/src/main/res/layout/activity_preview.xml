@@ -65,6 +65,20 @@
             android:textSize="14sp"
             />
 
+        <RadioButton
+            android:id="@+id/rb_hue"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/settings_hue"
+            android:textAllCaps="true"
+            android:textColor="@drawable/color_radio_button"
+            android:textSize="14sp"
+            />
+
     </RadioGroup>
 
     <LinearLayout

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">PXLSRT</string>
     <string name="settings_black">black</string>
-    <string name="settings_brightness">brightness</string>
+    <string name="settings_brightness">bright</string>
     <string name="settings_white">white</string>
+    <string name="settings_hue">hue</string>
     <string name="message_photo_processing">Image is being processed…</string>
     <string name="message_photo_processed">Image processed in %1$s</string>
     <string name="permission_rationale">CAMERA and READ_EXTERNAL_STORAGE permissions needed to take and store pictures</string>
