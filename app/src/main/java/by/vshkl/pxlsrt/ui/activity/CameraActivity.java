@@ -295,7 +295,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @Override
     public void openSettings() {
-
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     @Override

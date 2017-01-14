@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Picture settings category -->
+    <string name="pref_category_image_key">pref_category_image_key</string>
+    <string name="pref_category_image_title">Image preferences</string>
+
+    <!-- Picture resolution -->
+    <string name="pref_resolution_key">pref_resolution_key</string>
+    <string name="pref_resolution_title">Resolution</string>
+    <string name="pref_resolution_summary">Output image resolution</string>
+    <string name="pref_resolution_default">0</string>
+    <string-array name="pref_resolution_entries">
+        <item>Original</item>
+        <item>2000x2000</item>
+        <item>1500x1500</item>
+        <item>1000x1000</item>
+    </string-array>
+    <string-array name="pref_resolution_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <!-- Picture quality -->
+    <string name="pref_quality_key">pref_quality_key</string>
+    <string name="pref_quality_title">Quality</string>
+    <string name="pref_quality_summary">Output image quality</string>
+    <string name="pref_quality_default">0</string>
+    <string-array name="pref_quality_entries">
+        <item>100%</item>
+        <item>95%</item>
+        <item>90%</item>
+        <item>85%</item>
+    </string-array>
+    <string-array name="pref_quality_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <!-- Picture format -->
+    <string name="pref_format_key">pref_format_key</string>
+    <string name="pref_format_title">Format</string>
+    <string name="pref_format_summary">Output image format</string>
+    <string name="pref_format_default">0</string>
+    <string-array name="pref_format_entries">
+        <item>JPEG</item>
+        <item>PNG</item>
+    </string-array>
+    <string-array name="pref_format_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+</resources>
