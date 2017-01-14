@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.FileNotFoundException;
 
@@ -26,6 +31,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     public static final String EXTRA_FILENAME = "PreviewActivity.filename";
 
+    @BindView(R.id.rl_root) RelativeLayout rlRoot;
     @BindView(R.id.iv_preview) ImageView ivPreview;
     @BindView(R.id.rg_settings) RadioGroup rgSettings;
     @BindView(R.id.rb_black) RadioButton rbBlack;
@@ -33,6 +39,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     @BindView(R.id.rb_white) RadioButton rbWhite;
 
     @InjectPresenter PreviewPresenter presenter;
+
+    private ColorSeekBar sbColor;
+    private View vSeekBarBacking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +76,19 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         switch (checkedId) {
             case R.id.rb_black:
                 presenter.setSortingMode(SortingMode.BLACK);
+                presenter.hideColorSeekBar();
                 break;
             case R.id.rb_brightness:
                 presenter.setSortingMode(SortingMode.BRIGHTNESS);
+                presenter.hideColorSeekBar();
                 break;
             case R.id.rb_white:
                 presenter.setSortingMode(SortingMode.WHITE);
+                presenter.hideColorSeekBar();
                 break;
             case R.id.rb_hue:
                 presenter.setSortingMode(SortingMode.HUE);
+                presenter.showColorSeekBar();
                 break;
         }
     }
@@ -96,10 +109,11 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     }
 
     @Override
-    public void proceedToProcessing(String filename, SortingMode sortingMode) {
+    public void proceedToProcessing(String filename, SortingMode sortingMode, int color) {
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultActivity.EXTRA_FILENAME, filename);
         intent.putExtra(ResultActivity.EXTRA_SORTING_MODE, sortingMode);
+        intent.putExtra(ResultActivity.EXTRA_COLOR, color);
         startActivity(intent);
     }
 
@@ -108,7 +122,53 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         deleteFile(filename);
     }
 
+    @Override
+    public void showColorSeekBar() {
+        if (sbColor == null) {
+            initializeColorSeekBar();
+        }
+        sbColor.setVisibility(View.VISIBLE);
+        vSeekBarBacking.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideColorSeekBar() {
+        sbColor.setVisibility(View.GONE);
+        vSeekBarBacking.setVisibility(View.GONE);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
+
+    private void initializeColorSeekBar() {
+        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+                getResources().getDisplayMetrics());
+        sbColor = new ColorSeekBar(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, px, 0, 0);
+        sbColor.setLayoutParams(params);
+        sbColor.setBarHeight(2);
+        sbColor.setColorSeeds(getResources().getIntArray(R.array.hue_colors));
+        sbColor.setBackground(ContextCompat.getDrawable(this, R.drawable.transparent));
+        sbColor.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+            @Override
+            public void onColorChangeListener(int colorBarPosition, int alphaBarPosition, int color) {
+                presenter.setColor(color);
+            }
+        });
+
+        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
+                getResources().getDisplayMetrics());
+        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        vSeekBarBacking = new View(this);
+        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
+        params.setMargins(0, px, 0, 0);
+        vSeekBarBacking.setLayoutParams(params);
+        vSeekBarBacking.setBackgroundColor(ContextCompat.getColor(this, R.color.colorSeekBarBackground));
+
+        rlRoot.addView(vSeekBarBacking);
+        rlRoot.addView(sbColor);
+    }
 
     private void processIntentExtra() {
         Intent intent = getIntent();

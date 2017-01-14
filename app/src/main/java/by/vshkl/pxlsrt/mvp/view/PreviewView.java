@@ -12,7 +12,11 @@ public interface PreviewView extends MvpView {
 
     void retakePicture(String filename);
 
-    void proceedToProcessing(String filename, SortingMode sortingMode);
+    void proceedToProcessing(String filename, SortingMode sortingMode, int color);
 
     void removeTempFile(String filename);
+
+    void showColorSeekBar();
+
+    void hideColorSeekBar();
 }

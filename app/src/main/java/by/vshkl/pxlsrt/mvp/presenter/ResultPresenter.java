@@ -26,6 +26,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
     private Disposable disposable;
     private String filename;
     private SortingMode sortingMode;
+    private int color;
     String path;
 
     public void onDestroy() {
@@ -47,9 +48,13 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
         this.sortingMode = sortingMode;
     }
 
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     public void processImage(FileInputStream fis) {
         final long start = System.currentTimeMillis();
-        disposable = PixelSort.sort(fis, sortingMode)
+        disposable = PixelSort.sort(fis, sortingMode, color)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Bitmap>() {

@@ -6,7 +6,7 @@ public class Hue {
 
     private static final int hueValue = 180;
 
-    public static int getFirstHueX(int[] pixels, int x, int y, int width) {
+    public static int getFirstHueX(int[] pixels, int x, int y, int width, int hueValue) {
         while (getHue(pixels[x + y * width]) < hueValue) {
             x++;
             if (x >= width) {
@@ -16,7 +16,7 @@ public class Hue {
         return x;
     }
 
-    public static int getNextNotHueX(int[] pixels, int x, int y, int width) {
+    public static int getNextNotHueX(int[] pixels, int x, int y, int width, int hueValue) {
         x++;
         while (getHue(pixels[x + y * width]) > hueValue) {
             x++;
@@ -27,7 +27,7 @@ public class Hue {
         return x - 1;
     }
 
-    public static int getFirstHueY(int[] pixels, int x, int y, int width, int height) {
+    public static int getFirstHueY(int[] pixels, int x, int y, int width, int height, int hueValue) {
         if (y < height) {
             while (getHue(pixels[x + y * width]) < hueValue) {
                 y++;
@@ -39,7 +39,7 @@ public class Hue {
         return y;
     }
 
-    public static int getNextNotHueY(int[] pixels, int x, int y, int width, int height) {
+    public static int getNextNotHueY(int[] pixels, int x, int y, int width, int height, int hueValue) {
         y++;
         if (y < height) {
             while (getHue(pixels[x + y * width]) > hueValue) {
@@ -52,7 +52,7 @@ public class Hue {
         return y;
     }
 
-    private static int getHue(int pixelColor) {
+    public static int getHue(int pixelColor) {
         int r = Color.red(pixelColor);
         int g = Color.green(pixelColor);
         int b = Color.blue(pixelColor);

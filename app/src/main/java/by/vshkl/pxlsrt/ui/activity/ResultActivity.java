@@ -33,6 +33,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     public static final String EXTRA_FILENAME = "ResultActivity.filename";
     public static final String EXTRA_SORTING_MODE = "ResultActivity.sorting_mode";
+    public static final String EXTRA_COLOR = "ResultActivity.color";
     private static final String RESULT_FNAME_PREFIX = "PXLSRT_";
 
     @BindView(R.id.iv_result) ImageView ivResult;
@@ -151,10 +152,12 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
         if (intent != null) {
             String filename = intent.getStringExtra(EXTRA_FILENAME);
             SortingMode sortingMode = (SortingMode) intent.getSerializableExtra(EXTRA_SORTING_MODE);
+            int color = intent.getIntExtra(EXTRA_COLOR, 0);
             if (filename != null && sortingMode != null) {
                 try {
                     presenter.setFilename(filename);
                     presenter.setSortingMode(sortingMode);
+                    presenter.setColor(color);
                     presenter.processImage(this.openFileInput(filename));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
