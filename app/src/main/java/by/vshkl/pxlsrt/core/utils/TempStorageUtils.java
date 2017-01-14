@@ -18,21 +18,25 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TempStorageUtils {
 
-    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String fname, final byte[] data) {
+    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String fname, final byte[] data, final int resolution) {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
+                int resultResolution = resolution;
+                if (resolution == 0) {
+                    resultResolution = width < height ? width : height;
+                }
                 if (width < height) {
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, width);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution);
                 } else {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(90);
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, height, height, matrix, true);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution, matrix, true);
                 }
-                storeFile(fos, bitmap)
+                storeFile(fos, bitmap, 100)
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Consumer<Boolean>() {
                             @Override
@@ -53,7 +57,7 @@ public class TempStorageUtils {
                 Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
                 int dimension = bitmap.getWidth();
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, dimension, dimension);
-                storeFile(fos, bitmap)
+                storeFile(fos, bitmap, 100)
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Consumer<Boolean>() {
                             @Override
@@ -67,11 +71,11 @@ public class TempStorageUtils {
         });
     }
 
-    public static Observable<Boolean> saveResultPicture(final FileOutputStream fos, final Bitmap bitmap) {
+    public static Observable<Boolean> saveResultPicture(final FileOutputStream fos, final Bitmap bitmap, final int quality) {
         return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(final ObservableEmitter<Boolean> emitter) throws Exception {
-                storeFile(fos, bitmap)
+                storeFile(fos, bitmap, quality)
                         .subscribeOn(Schedulers.io())
                         .onErrorReturn(new Function<Throwable, Boolean>() {
                             @Override
@@ -108,11 +112,11 @@ public class TempStorageUtils {
         });
     }
 
-    static Observable<Boolean> storeFile(final FileOutputStream fos, final Bitmap bitmap) {
+    static Observable<Boolean> storeFile(final FileOutputStream fos, final Bitmap bitmap, final int quality) {
         return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos);
                 bitmap.recycle();
                 try {
                     fos.flush();

@@ -63,8 +63,8 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                 });
     }
 
-    public void saveResultPicture(FileOutputStream fos, Bitmap bitmap) {
-        disposable = TempStorageUtils.saveResultPicture(fos, bitmap)
+    public void saveResultPicture(FileOutputStream fos, Bitmap bitmap, int quality) {
+        disposable = TempStorageUtils.saveResultPicture(fos, bitmap, quality)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorReturn(new Function<Throwable, Boolean>() {
