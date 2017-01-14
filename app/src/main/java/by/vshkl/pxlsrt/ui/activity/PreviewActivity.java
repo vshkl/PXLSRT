@@ -124,17 +124,20 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     @Override
     public void showColorSeekBar() {
-        if (sbColor == null) {
+        if (sbColor == null && vSeekBarBacking == null) {
             initializeColorSeekBar();
+        } else {
+            sbColor.setVisibility(View.VISIBLE);
+            vSeekBarBacking.setVisibility(View.VISIBLE);
         }
-        sbColor.setVisibility(View.VISIBLE);
-        vSeekBarBacking.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideColorSeekBar() {
-        sbColor.setVisibility(View.GONE);
-        vSeekBarBacking.setVisibility(View.GONE);
+        if (sbColor != null && vSeekBarBacking != null) {
+            sbColor.setVisibility(View.GONE);
+            vSeekBarBacking.setVisibility(View.GONE);
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
