@@ -20,7 +20,8 @@ import static by.vshkl.pxlsrt.core.mode.Brightness.getFirstBrightY;
 
 public class PixelSort {
 
-    public static Observable<Bitmap> sort(final FileInputStream fis, final SortingMode sortingMode) {
+    // Color only for HUE sorting for now
+    public static Observable<Bitmap> sort(final FileInputStream fis, final SortingMode sortingMode, final int color) {
         return Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {
@@ -70,12 +71,13 @@ public class PixelSort {
                         }
                         break;
                     case HUE:
+                        int hue = Hue.getHue(color);
                         while (currentColumn < width - 1) {
-                            pixels = sortColumnsHue(pixels, currentColumn, width, height);
+                            pixels = sortColumnsHue(pixels, currentColumn, width, height, hue);
                             currentColumn++;
                         }
                         while (currentRow < height - 1) {
-                            pixels = sortRowHue(pixels, currentRow, width);
+                            pixels = sortRowHue(pixels, currentRow, width, hue);
                             currentRow++;
                         }
                         break;
@@ -247,13 +249,13 @@ public class PixelSort {
 
     //---[ Sorting hue ]------------------------------------------------------------------------------------------------
 
-    static int[] sortRowHue(int[] pixels, int currentRow, int width) {
+    static int[] sortRowHue(int[] pixels, int currentRow, int width, int hue) {
         int y = currentRow;
         int x = 0;
         int xe = 0;
         while (xe < width - 1) {
-            x = Hue.getFirstHueX(pixels, x, y, width);
-            xe = Hue.getNextNotHueX(pixels, x, y, width);
+            x = Hue.getFirstHueX(pixels, x, y, width, hue);
+            xe = Hue.getNextNotHueX(pixels, x, y, width, hue);
             if (x < 0) {
                 break;
             }
@@ -271,13 +273,13 @@ public class PixelSort {
         return pixels;
     }
 
-    static int[] sortColumnsHue(int[] pixels, int currentColumn, int width, int height) {
+    static int[] sortColumnsHue(int[] pixels, int currentColumn, int width, int height, int hue) {
         int x = currentColumn;
         int y = 0;
         int ye = 0;
         while (ye < height - 1) {
-            y = Hue.getFirstHueY(pixels, x, y, width, height);
-            ye = Hue.getNextNotHueY(pixels, x, y, width, height);
+            y = Hue.getFirstHueY(pixels, x, y, width, height, hue);
+            ye = Hue.getNextNotHueY(pixels, x, y, width, height, hue);
             if (y < 0) {
                 break;
             }
