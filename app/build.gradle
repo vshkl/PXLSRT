@@ -68,4 +68,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    // Color Seek bar
+    compile 'com.github.rtugeek:ColorSeekBar:1.2.2'
 }
