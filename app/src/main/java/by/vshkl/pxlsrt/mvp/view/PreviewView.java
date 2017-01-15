@@ -19,4 +19,6 @@ public interface PreviewView extends MvpView {
     void showColorSeekBar();
 
     void hideColorSeekBar();
+
+    void logSortingMode(SortingMode sortingMode);
 }
