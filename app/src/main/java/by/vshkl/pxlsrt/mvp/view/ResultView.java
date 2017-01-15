@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 import com.arellomobile.mvp.MvpView;
 
+import by.vshkl.pxlsrt.mvp.model.SortingMode;
+
 public interface ResultView extends MvpView {
 
     void showProgress();
@@ -27,4 +29,6 @@ public interface ResultView extends MvpView {
     void removeTempFile(String filename);
 
     void scanMediaStore(String path);
+
+    void logProcessingTime(SortingMode sortingMode, String processingTime);
 }

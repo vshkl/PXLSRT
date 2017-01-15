@@ -48,6 +48,10 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
         this.sortingMode = sortingMode;
     }
 
+    public SortingMode getSortingMode() {
+        return sortingMode;
+    }
+
     public void setColor(int color) {
         this.color = color;
     }
@@ -63,6 +67,8 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
                         getViewState().hideProgress();
                         getViewState().setResultPicture(bitmap);
                         getViewState().setResultMessage(TimeUtils.getReadableTime(System.currentTimeMillis() - start));
+                        getViewState().logProcessingTime(getSortingMode(),
+                                TimeUtils.getProcessingTimeToLog(System.currentTimeMillis() - start));
                         getViewState().showButtons();
                     }
                 });

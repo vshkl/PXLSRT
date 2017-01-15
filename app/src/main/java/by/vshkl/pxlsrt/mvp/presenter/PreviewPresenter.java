@@ -72,4 +72,8 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
             getViewState().proceedToProcessing(filename, sortingMode, color);
         }
     }
+
+    public void logSortingMode(SortingMode sortingMode) {
+        getViewState().logSortingMode(sortingMode);
+    }
 }
