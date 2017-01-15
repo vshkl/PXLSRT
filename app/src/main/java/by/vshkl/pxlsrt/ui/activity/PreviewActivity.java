@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.FileNotFoundException;
@@ -110,6 +112,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     @Override
     public void proceedToProcessing(String filename, SortingMode sortingMode, int color) {
+        presenter.logSortingMode(sortingMode);
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultActivity.EXTRA_FILENAME, filename);
         intent.putExtra(ResultActivity.EXTRA_SORTING_MODE, sortingMode);
@@ -138,6 +141,12 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
             sbColor.setVisibility(View.GONE);
             vSeekBarBacking.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void logSortingMode(SortingMode sortingMode) {
+        Answers.getInstance().logCustom(new CustomEvent(getString(R.string.log_sorting_mode_name))
+                .putCustomAttribute(getString(R.string.log_sorting_mode_attribute), sortingMode.toString()));
     }
 
     //------------------------------------------------------------------------------------------------------------------

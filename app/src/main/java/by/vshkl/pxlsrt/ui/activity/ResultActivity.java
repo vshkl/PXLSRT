@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -143,6 +145,13 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     @Override
     public void scanMediaStore(String path) {
         MediaScannerConnection.scanFile(this, new String[]{path}, null, null);
+    }
+
+    @Override
+    public void logProcessingTime(SortingMode sortingMode, String processingTime) {
+        Answers.getInstance().logCustom(new CustomEvent(getString(R.string.log_processing_time_name))
+                .putCustomAttribute(getString(R.string.log_sorting_mode_attribute), sortingMode.toString())
+                .putCustomAttribute(getString(R.string.log_processing_time_attribute), processingTime));
     }
 
     //------------------------------------------------------------------------------------------------------------------
