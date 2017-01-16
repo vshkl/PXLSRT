@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -102,7 +103,13 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         if (requestCode == PERMISSION_REQUEST) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                cvCamera.start();
+                // TODO: Remove this workaround when lib will become more stable
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cvCamera.start();
+                    }
+                }, 200);
             } else {
                 cvCamera.stop();
                 presenter.showPermissionsMessage(R.string.permission_denied);

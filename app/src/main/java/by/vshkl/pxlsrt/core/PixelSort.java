@@ -20,7 +20,6 @@ import static by.vshkl.pxlsrt.core.mode.Brightness.getFirstBrightY;
 
 public class PixelSort {
 
-    // Color only for HUE sorting for now
     public static Observable<Bitmap> sort(final FileInputStream fis, final SortingMode sortingMode, final int color) {
         return Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
@@ -28,7 +27,6 @@ public class PixelSort {
                 int currentRow = 0;
                 int currentColumn = 0;
 
-                // Get array of pixels
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);
                 int height = bitmap.getHeight();
                 int width = bitmap.getWidth();
