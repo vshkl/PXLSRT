@@ -20,6 +20,8 @@
 -keep class com.google.android.cameraview.** { *; }
 -dontobfuscate
 
+-dontwarn okio.**
+
 -keep class butterknife.*
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }

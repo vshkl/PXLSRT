@@ -32,6 +32,13 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
+            splits {
+                abi {
+                    enable true
+                    reset()
+                    include "x86", "x86-64", "arm64-v8a", "armeabi", "armeabi_v7a"
+                }
+            }
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
