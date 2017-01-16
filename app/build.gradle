@@ -32,6 +32,7 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
+            ext.enableCrashlytics = true
             splits {
                 abi {
                     enable true
@@ -44,6 +45,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             debuggable true
+            ext.enableCrashlytics = false
         }
     }
 }
