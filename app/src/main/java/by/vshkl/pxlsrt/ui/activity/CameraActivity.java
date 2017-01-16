@@ -53,7 +53,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @InjectPresenter CameraPresenter presenter;
 
-    private CameraView.Callback callback = new CameraView.Callback() {
+    final private CameraView.Callback callback = new CameraView.Callback() {
         @Override
         public void onPictureTaken(CameraView cameraView, byte[] data) {
             super.onPictureTaken(cameraView, data);
@@ -83,7 +83,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_PIC_REQUEST) {
                 List<String> photos = (List<String>) data.getSerializableExtra(GalleryActivity.PHOTOS);
-                presenter.openCropper(photos.get(0).toString());
+                presenter.openCropper(photos.get(0));
             }
             if (requestCode == UCrop.REQUEST_CROP) {
                 try {

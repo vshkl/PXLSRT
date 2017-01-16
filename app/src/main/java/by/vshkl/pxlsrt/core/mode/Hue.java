@@ -4,8 +4,6 @@ import android.graphics.Color;
 
 public class Hue {
 
-    private static final int hueValue = 180;
-
     public static int getFirstHueX(int[] pixels, int x, int y, int width, int hueValue) {
         while (getHue(pixels[x + y * width]) < hueValue) {
             x++;

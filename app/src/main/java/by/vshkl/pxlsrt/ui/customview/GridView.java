@@ -14,7 +14,7 @@ public class GridView extends View {
     private static final int NUM_ROWS = 3;
     private static final int NUM_COLS = 3;
 
-    private Paint blackPaint = new Paint();
+    final private Paint blackPaint = new Paint();
 
     public GridView(Context context) {
         super(context);
