@@ -64,7 +64,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
 
     public void retakePicture() {
         getViewState().removeTempFile(filename);
-        getViewState().retakePicture(filename);
+        getViewState().retakePicture();
     }
 
     public void proceedToProcessing() {

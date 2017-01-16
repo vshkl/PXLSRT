@@ -20,7 +20,7 @@ public interface ResultView extends MvpView {
 
     void setResultMessage(String timeDelta);
 
-    void retakePicture(String filename);
+    void retakePicture();
 
     void editPicture(String filename);
 

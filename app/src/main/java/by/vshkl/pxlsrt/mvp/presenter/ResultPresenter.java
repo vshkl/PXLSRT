@@ -98,7 +98,7 @@ public class ResultPresenter extends MvpPresenter<ResultView> {
 
     public void retakePicture() {
         getViewState().removeTempFile(filename);
-        getViewState().retakePicture(filename);
+        getViewState().retakePicture();
     }
 
     public void editPicture() {
