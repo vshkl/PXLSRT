@@ -44,6 +44,7 @@ android {
         }
         debug {
             applicationIdSuffix ".debug"
+            versionNameSuffix '-DEBUG'
             debuggable true
             ext.enableCrashlytics = false
         }
