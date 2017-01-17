@@ -22,7 +22,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -170,12 +169,10 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         int[] colors = {
                 palette.getDominantColor(defaultColor),
                 palette.getVibrantColor(defaultColor),
-                palette.getMutedColor(defaultColor)
+                palette.getMutedColor(defaultColor)};
 
-        };
-
-        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-                getResources().getDisplayMetrics());
+        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics());
         sbColor = new ColorSeekBar(PreviewActivity.this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -191,8 +188,8 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
             }
         });
 
-        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
-                getResources().getDisplayMetrics());
+        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
         int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
         vSeekBarBacking = new View(PreviewActivity.this);
         params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
@@ -226,13 +223,5 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         rbBlack.setTypeface(typeface);
         rbBrightness.setTypeface(typeface);
         rbWhite.setTypeface(typeface);
-    }
-
-    private int[] a2l(List<Integer> list) {
-        int[] array = new int[list.size()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = list.get(i);
-        }
-        return array;
     }
 }
