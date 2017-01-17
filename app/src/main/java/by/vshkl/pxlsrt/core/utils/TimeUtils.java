@@ -8,7 +8,7 @@ public class TimeUtils {
         return String.format(Locale.getDefault(), "%.3f sec", time / 1000.0);
     }
 
-    public static String getProcessingTimeToLog(long time) {
-        return String.format(Locale.getDefault(), "%.1f sec", time / 1000.0);
+    public static double getProcessingTimeToLog(long time) {
+        return Math.floor(time / 1000.0 * 100) / 100;
     }
 }

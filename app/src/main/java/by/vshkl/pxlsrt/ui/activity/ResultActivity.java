@@ -147,10 +147,11 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     }
 
     @Override
-    public void logProcessingTime(SortingMode sortingMode, String processingTime) {
+    public void logProcessingTime(SortingMode sortingMode, double processingTime) {
         Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.param_sorting_mode), sortingMode.toString());
-        bundle.putFloat(FirebaseAnalytics.Param.VALUE, Float.valueOf(processingTime));
+//        bundle.putString(getString(R.string.param_sorting_mode), sortingMode.toString());
+        bundle.putString(FirebaseAnalytics.Param.VALUE, sortingMode.toString());
+        bundle.putDouble(FirebaseAnalytics.Param.VALUE, processingTime);
         FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(getString(R.string.event_processing_time), bundle);
     }
 

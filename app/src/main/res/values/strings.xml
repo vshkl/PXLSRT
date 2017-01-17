@@ -13,8 +13,6 @@
     <string name="permission_denied">Needed for camera</string>
     <string name="title_cropper">Crop image</string>
      <!-- Firebase analytics -->
-    <string name="param_sorting_mode">sorting_mode</string>
-    <string name="param_processing_time">processing_time</string>
     <string name="event_sorting_mode">selected_sorting_mode</string>
     <string name="event_processing_time">elapsed_processing_time</string>
 </resources>

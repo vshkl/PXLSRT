@@ -30,5 +30,5 @@ public interface ResultView extends MvpView {
 
     void scanMediaStore(String path);
 
-    void logProcessingTime(SortingMode sortingMode, String processingTime);
+    void logProcessingTime(SortingMode sortingMode, double processingTime);
 }

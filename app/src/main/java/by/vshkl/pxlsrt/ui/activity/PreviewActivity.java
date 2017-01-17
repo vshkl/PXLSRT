@@ -149,7 +149,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     @Override
     public void logSortingMode(SortingMode sortingMode) {
         Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.param_sorting_mode), sortingMode.toString());
+        bundle.putString(FirebaseAnalytics.Param.VALUE, sortingMode.toString());
         FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(getString(R.string.event_sorting_mode), bundle);
     }
 
