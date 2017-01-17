@@ -37,8 +37,6 @@ import by.vshkl.pxlsrt.core.utils.PrefUtils;
 import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import by.vshkl.pxlsrt.ui.customview.GridView;
 
-import static android.app.Activity.RESULT_OK;
-
 public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxlsrt.mvp.view.CameraView {
 
     private static final int PERMISSION_REQUEST = 42;
@@ -282,6 +280,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
 
     @Override
     public void openCropper(String image) {
+        String filename = FNAME_PREFIX + System.currentTimeMillis();
         UCrop.Options options = new UCrop.Options();
         options.setToolbarTitle(getString(R.string.title_cropper));
         options.setCompressionQuality(PrefUtils.getImageQualityPref(getApplicationContext()));
@@ -289,7 +288,7 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
         options.setHideBottomControls(true);
         options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        UCrop.of(Uri.fromFile(new File(image)), Uri.fromFile(new File(image)))
+        UCrop.of(Uri.fromFile(new File(image)), Uri.fromFile(new File(getFilesDir(), filename)))
                 .withOptions(options)
                 .withAspectRatio(1, 1)
                 .start(this);
