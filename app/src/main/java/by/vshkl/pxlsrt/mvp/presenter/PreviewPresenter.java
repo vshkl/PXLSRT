@@ -21,7 +21,7 @@ public class PreviewPresenter extends MvpPresenter<PreviewView> {
     private Disposable disposable;
     private String filename;
     private SortingMode sortingMode = SortingMode.BRIGHTNESS;
-    private int color = 180;
+    private int color = 0;
 
     public void onDestroy() {
         getViewState().removeTempFile(filename);

@@ -3,8 +3,11 @@ package by.vshkl.pxlsrt.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,8 +39,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     @BindView(R.id.iv_preview) ImageView ivPreview;
     @BindView(R.id.rg_settings) RadioGroup rgSettings;
     @BindView(R.id.rb_black) RadioButton rbBlack;
-    @BindView(R.id.rb_brightness) RadioButton rbBrightness;
     @BindView(R.id.rb_white) RadioButton rbWhite;
+    @BindView(R.id.rb_brightness) RadioButton rbBrightness;
+    @BindView(R.id.rb_color) RadioButton rbColor;
 
     @InjectPresenter PreviewPresenter presenter;
 
@@ -79,16 +83,16 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
                 presenter.setSortingMode(SortingMode.BLACK);
                 presenter.hideColorSeekBar();
                 break;
-            case R.id.rb_brightness:
-                presenter.setSortingMode(SortingMode.BRIGHTNESS);
-                presenter.hideColorSeekBar();
-                break;
             case R.id.rb_white:
                 presenter.setSortingMode(SortingMode.WHITE);
                 presenter.hideColorSeekBar();
                 break;
-            case R.id.rb_hue:
-                presenter.setSortingMode(SortingMode.HUE);
+            case R.id.rb_brightness:
+                presenter.setSortingMode(SortingMode.BRIGHTNESS);
+                presenter.hideColorSeekBar();
+                break;
+            case R.id.rb_color:
+                presenter.setSortingMode(SortingMode.COLOR);
                 presenter.showColorSeekBar();
                 break;
         }
@@ -127,7 +131,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     @Override
     public void showColorSeekBar() {
         if (sbColor == null && vSeekBarBacking == null) {
-            initializeColorSeekBar();
+            extractColors();
         } else {
             sbColor.setVisibility(View.VISIBLE);
             vSeekBarBacking.setVisibility(View.VISIBLE);
@@ -151,17 +155,33 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     //------------------------------------------------------------------------------------------------------------------
 
-    private void initializeColorSeekBar() {
-        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-                getResources().getDisplayMetrics());
-        sbColor = new ColorSeekBar(this);
+    private void extractColors() {
+        Palette.from(((BitmapDrawable) ivPreview.getDrawable()).getBitmap()).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                initializeColorSeekBar(palette);
+            }
+        });
+
+    }
+
+    private void initializeColorSeekBar(Palette palette) {
+        int defaultColor = 0x000000;
+        int[] colors = {
+                palette.getDominantColor(defaultColor),
+                palette.getVibrantColor(defaultColor),
+                palette.getMutedColor(defaultColor)};
+
+        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
+        sbColor = new ColorSeekBar(PreviewActivity.this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, px, 0, 0);
         sbColor.setLayoutParams(params);
-        sbColor.setBarHeight(2);
-        sbColor.setColorSeeds(getResources().getIntArray(R.array.hue_colors));
-        sbColor.setBackground(ContextCompat.getDrawable(this, R.drawable.transparent));
+        sbColor.setBarHeight(4);
+        sbColor.setColorSeeds(colors);
+        sbColor.setBackground(ContextCompat.getDrawable(PreviewActivity.this, R.drawable.transparent));
         sbColor.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
             @Override
             public void onColorChangeListener(int colorBarPosition, int alphaBarPosition, int color) {
@@ -169,14 +189,16 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
             }
         });
 
-        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
-                getResources().getDisplayMetrics());
-        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-        vSeekBarBacking = new View(this);
+        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        vSeekBarBacking = new View(PreviewActivity.this);
         params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
         params.setMargins(0, px, 0, 0);
         vSeekBarBacking.setLayoutParams(params);
-        vSeekBarBacking.setBackgroundColor(ContextCompat.getColor(this, R.color.colorSeekBarBackground));
+        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors);
+        gradient.setCornerRadius(0f);
+        vSeekBarBacking.setBackground(gradient);
 
         rlRoot.addView(vSeekBarBacking);
         rlRoot.addView(sbColor);
@@ -200,7 +222,8 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     private void setupTypeface() {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         rbBlack.setTypeface(typeface);
-        rbBrightness.setTypeface(typeface);
         rbWhite.setTypeface(typeface);
+        rbBrightness.setTypeface(typeface);
+        rbColor.setTypeface(typeface);
     }
 }
