@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.BuildConfig;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.android.cameraview.CameraView;
 import com.tangxiaolv.telegramgallery.GalleryActivity;
 import com.tangxiaolv.telegramgallery.GalleryConfig;
@@ -72,9 +74,9 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics.Builder().core(
+                new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
         ButterKnife.bind(this);
-
         presenter.cleanTempFiles();
         cvCamera.addCallback(callback);
     }
@@ -101,15 +103,16 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                // TODO: Remove this workaround when lib will become more stable
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        cvCamera.start();
-                    }
-                }, 200);
+                new Handler().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                cvCamera.start();
+                            }
+                        }, 500);
             } else {
                 cvCamera.stop();
                 presenter.showPermissionsMessage(R.string.permission_denied);
