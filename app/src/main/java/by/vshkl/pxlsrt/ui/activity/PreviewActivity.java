@@ -15,8 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.FileNotFoundException;
@@ -145,8 +144,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
 
     @Override
     public void logSortingMode(SortingMode sortingMode) {
-        Answers.getInstance().logCustom(new CustomEvent(getString(R.string.log_sorting_mode_name))
-                .putCustomAttribute(getString(R.string.log_sorting_mode_attribute), sortingMode.toString()));
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.param_sorting_mode), sortingMode.toString());
+        FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(getString(R.string.event_sorting_mode), bundle);
     }
 
     //------------------------------------------------------------------------------------------------------------------

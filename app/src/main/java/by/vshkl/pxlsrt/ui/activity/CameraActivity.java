@@ -20,9 +20,6 @@ import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.BuildConfig;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.android.cameraview.CameraView;
 import com.tangxiaolv.telegramgallery.GalleryActivity;
 import com.tangxiaolv.telegramgallery.GalleryConfig;
@@ -39,7 +36,8 @@ import by.vshkl.pxlsrt.R;
 import by.vshkl.pxlsrt.core.utils.PrefUtils;
 import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import by.vshkl.pxlsrt.ui.customview.GridView;
-import io.fabric.sdk.android.Fabric;
+
+import static android.app.Activity.RESULT_OK;
 
 public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxlsrt.mvp.view.CameraView {
 
@@ -74,8 +72,6 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        Fabric.with(this, new Crashlytics.Builder().core(
-                new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
         ButterKnife.bind(this);
         presenter.cleanTempFiles();
         cvCamera.addCallback(callback);

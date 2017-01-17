@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -149,9 +148,10 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
 
     @Override
     public void logProcessingTime(SortingMode sortingMode, String processingTime) {
-        Answers.getInstance().logCustom(new CustomEvent(getString(R.string.log_processing_time_name))
-                .putCustomAttribute(getString(R.string.log_sorting_mode_attribute), sortingMode.toString())
-                .putCustomAttribute(getString(R.string.log_processing_time_attribute), processingTime));
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.param_sorting_mode), sortingMode.toString());
+        bundle.putString(getString(R.string.param_processing_time), processingTime);
+        FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(getString(R.string.event_processing_time), bundle);
     }
 
     //------------------------------------------------------------------------------------------------------------------
