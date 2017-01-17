@@ -97,8 +97,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingBottom="40dp"
-            android:paddingTop="40dp"
+            android:paddingBottom="48dp"
+            android:paddingTop="48dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_close"
             />
@@ -109,8 +109,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingBottom="40dp"
-            android:paddingTop="40dp"
+            android:paddingBottom="48dp"
+            android:paddingTop="48dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_ok"
             />
