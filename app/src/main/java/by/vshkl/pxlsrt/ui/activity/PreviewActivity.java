@@ -3,8 +3,11 @@ package by.vshkl.pxlsrt.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -152,34 +156,50 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     //------------------------------------------------------------------------------------------------------------------
 
     private void initializeColorSeekBar() {
-        int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-                getResources().getDisplayMetrics());
-        sbColor = new ColorSeekBar(this);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, px, 0, 0);
-        sbColor.setLayoutParams(params);
-        sbColor.setBarHeight(2);
-        sbColor.setColorSeeds(getResources().getIntArray(R.array.hue_colors));
-        sbColor.setBackground(ContextCompat.getDrawable(this, R.drawable.transparent));
-        sbColor.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+        Palette.from(((BitmapDrawable) ivPreview.getDrawable()).getBitmap()).generate(new Palette.PaletteAsyncListener() {
             @Override
-            public void onColorChangeListener(int colorBarPosition, int alphaBarPosition, int color) {
-                presenter.setColor(color);
+            public void onGenerated(Palette palette) {
+                int defaultColor = 0x000000;
+                int[] colors = {
+                        palette.getDominantColor(defaultColor),
+                        palette.getVibrantColor(defaultColor),
+                        palette.getMutedColor(defaultColor)
+
+                };
+
+                int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
+                        getResources().getDisplayMetrics());
+                sbColor = new ColorSeekBar(PreviewActivity.this);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, px, 0, 0);
+                sbColor.setLayoutParams(params);
+                sbColor.setBarHeight(2);
+                sbColor.setColorSeeds(colors);
+                sbColor.setBackground(ContextCompat.getDrawable(PreviewActivity.this, R.drawable.transparent));
+                sbColor.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+                    @Override
+                    public void onColorChangeListener(int colorBarPosition, int alphaBarPosition, int color) {
+                        presenter.setColor(color);
+                    }
+                });
+
+                px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
+                        getResources().getDisplayMetrics());
+                int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+                vSeekBarBacking = new View(PreviewActivity.this);
+                params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
+                params.setMargins(0, px, 0, 0);
+                vSeekBarBacking.setLayoutParams(params);
+                GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors);
+                gradient.setCornerRadius(0f);
+                vSeekBarBacking.setBackground(gradient);
+
+                rlRoot.addView(vSeekBarBacking);
+                rlRoot.addView(sbColor);
             }
         });
 
-        px = ivPreview.getHeight() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
-                getResources().getDisplayMetrics());
-        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-        vSeekBarBacking = new View(this);
-        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
-        params.setMargins(0, px, 0, 0);
-        vSeekBarBacking.setLayoutParams(params);
-        vSeekBarBacking.setBackgroundColor(ContextCompat.getColor(this, R.color.colorSeekBarBackground));
-
-        rlRoot.addView(vSeekBarBacking);
-        rlRoot.addView(sbColor);
     }
 
     private void processIntentExtra() {
@@ -202,5 +222,13 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         rbBlack.setTypeface(typeface);
         rbBrightness.setTypeface(typeface);
         rbWhite.setTypeface(typeface);
+    }
+
+    private int[] a2l(List<Integer> list) {
+        int[] array = new int[list.size()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = list.get(i);
+        }
+        return array;
     }
 }
