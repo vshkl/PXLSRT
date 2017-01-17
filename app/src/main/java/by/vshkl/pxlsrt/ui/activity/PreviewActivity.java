@@ -173,13 +173,13 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
                 palette.getMutedColor(defaultColor)};
 
         int px = ivPreview.getHeight() - (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
         sbColor = new ColorSeekBar(PreviewActivity.this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, px, 0, 0);
         sbColor.setLayoutParams(params);
-        sbColor.setBarHeight(2);
+        sbColor.setBarHeight(4);
         sbColor.setColorSeeds(colors);
         sbColor.setBackground(ContextCompat.getDrawable(PreviewActivity.this, R.drawable.transparent));
         sbColor.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
@@ -190,8 +190,8 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
         });
 
         px = ivPreview.getHeight() - (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
-        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
         vSeekBarBacking = new View(PreviewActivity.this);
         params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
         params.setMargins(0, px, 0, 0);
