@@ -150,7 +150,7 @@ public class ResultActivity extends MvpAppCompatActivity implements ResultView {
     public void logProcessingTime(SortingMode sortingMode, String processingTime) {
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.param_sorting_mode), sortingMode.toString());
-        bundle.putString(getString(R.string.param_processing_time), processingTime);
+        bundle.putFloat(FirebaseAnalytics.Param.VALUE, Float.valueOf(processingTime));
         FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(getString(R.string.event_processing_time), bundle);
     }
 
