@@ -92,7 +92,7 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
                 presenter.hideColorSeekBar();
                 break;
             case R.id.rb_hue:
-                presenter.setSortingMode(SortingMode.HUE);
+                presenter.setSortingMode(SortingMode.COLOR);
                 presenter.showColorSeekBar();
                 break;
         }

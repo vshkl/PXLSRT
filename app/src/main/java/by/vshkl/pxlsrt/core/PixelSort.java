@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import by.vshkl.pxlsrt.core.mode.Black;
 import by.vshkl.pxlsrt.core.mode.Brightness;
-import by.vshkl.pxlsrt.core.mode.Hue;
+import by.vshkl.pxlsrt.core.mode.Color;
 import by.vshkl.pxlsrt.core.mode.White;
 import by.vshkl.pxlsrt.mvp.model.SortingMode;
 import io.reactivex.Observable;
@@ -40,7 +40,7 @@ public class PixelSort {
                 switch (sortingMode) {
                     case BLACK:
                         while (currentColumn < width - 1) {
-                            pixels = sortColumnsBlack(pixels, currentColumn, width, height);
+                            pixels = sortColumnBlack(pixels, currentColumn, width, height);
                             currentColumn++;
                         }
                         while (currentRow < height - 1) {
@@ -50,7 +50,7 @@ public class PixelSort {
                         break;
                     case WHITE:
                         while (currentColumn < width - 1) {
-                            pixels = sortColumnsWhite(pixels, currentColumn, width, height);
+                            pixels = sortColumnWhite(pixels, currentColumn, width, height);
                             currentColumn++;
                         }
                         while (currentRow < height - 1) {
@@ -60,7 +60,7 @@ public class PixelSort {
                         break;
                     case BRIGHTNESS:
                         while (currentColumn < width - 1) {
-                            pixels = sortColumnsBrightness(pixels, currentColumn, width, height);
+                            pixels = sortColumnBrightness(pixels, currentColumn, width, height);
                             currentColumn++;
                         }
                         while (currentRow < height - 1) {
@@ -68,14 +68,13 @@ public class PixelSort {
                             currentRow++;
                         }
                         break;
-                    case HUE:
-                        int hue = Hue.getHue(color);
+                    case COLOR:
                         while (currentColumn < width - 1) {
-                            pixels = sortColumnsHue(pixels, currentColumn, width, height, hue);
+                            pixels = sortColumnColor(pixels, currentColumn, width, height, color);
                             currentColumn++;
                         }
                         while (currentRow < height - 1) {
-                            pixels = sortRowHue(pixels, currentRow, width, hue);
+                            pixels = sortRowColor(pixels, currentRow, width, color);
                             currentRow++;
                         }
                         break;
@@ -121,7 +120,7 @@ public class PixelSort {
         return pixels;
     }
 
-    static int[] sortColumnsBlack(int[] pixels, int currentColumn, int width, int height) {
+    static int[] sortColumnBlack(int[] pixels, int currentColumn, int width, int height) {
         int x = currentColumn;
         int y = 0;
         int ye = 0;
@@ -171,7 +170,7 @@ public class PixelSort {
         return pixels;
     }
 
-    static int[] sortColumnsWhite(int[] pixels, int currentColumn, int width, int height) {
+    static int[] sortColumnWhite(int[] pixels, int currentColumn, int width, int height) {
         int x = currentColumn;
         int y = 0;
         int ye = 0;
@@ -221,7 +220,7 @@ public class PixelSort {
         return pixels;
     }
 
-    static int[] sortColumnsBrightness(int[] pixels, int currentColumn, int width, int height) {
+    static int[] sortColumnBrightness(int[] pixels, int currentColumn, int width, int height) {
         int x = currentColumn;
         int y = 0;
         int ye = 0;
@@ -245,15 +244,15 @@ public class PixelSort {
         return pixels;
     }
 
-    //---[ Sorting hue ]------------------------------------------------------------------------------------------------
+    //---[ Sorting color ]----------------------------------------------------------------------------------------------
 
-    static int[] sortRowHue(int[] pixels, int currentRow, int width, int hue) {
+    static int[] sortRowColor(int[] pixels, int currentRow, int width, int color) {
         int y = currentRow;
         int x = 0;
         int xe = 0;
         while (xe < width - 1) {
-            x = Hue.getFirstHueX(pixels, x, y, width, hue);
-            xe = Hue.getNextNotHueX(pixels, x, y, width, hue);
+            x = Color.getFirstColorX(pixels, x, y, width, color);
+            xe = Color.getNextNotColorX(pixels, x, y, width, color);
             if (x < 0) {
                 break;
             }
@@ -271,13 +270,13 @@ public class PixelSort {
         return pixels;
     }
 
-    static int[] sortColumnsHue(int[] pixels, int currentColumn, int width, int height, int hue) {
+    static int[] sortColumnColor(int[] pixels, int currentColumn, int width, int height, int color) {
         int x = currentColumn;
         int y = 0;
         int ye = 0;
         while (ye < height - 1) {
-            y = Hue.getFirstHueY(pixels, x, y, width, height, hue);
-            ye = Hue.getNextNotHueY(pixels, x, y, width, height, hue);
+            y = Color.getFirstColorY(pixels, x, y, width, height, color);
+            ye = Color.getNextNotColorY(pixels, x, y, width, height, color);
             if (y < 0) {
                 break;
             }
