@@ -33,18 +33,3 @@
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }
 
--dontwarn com.crashlytics.**
--dontwarn com.squareup.okhttp.**
--dontwarn com.google.appengine.api.urlfetch.**
--dontwarn rx.**
--dontwarn retrofit.**
--keepattributes Signature
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
--keep class com.squareup.okhttp.** { *; }
--keep interface com.squareup.okhttp.** { *; }
--keep class retrofit.** { *; }
--keep class com.crashlytics.** { *; }
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}

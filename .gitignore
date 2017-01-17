@@ -49,3 +49,4 @@ captures/
 *.jks
 
 app/crashlytics.properties
+app/google-services.json

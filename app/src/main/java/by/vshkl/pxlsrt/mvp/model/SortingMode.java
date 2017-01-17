@@ -4,5 +4,5 @@ public enum SortingMode {
     BLACK,
     BRIGHTNESS,
     WHITE,
-    HUE
+    COLOR
 }
