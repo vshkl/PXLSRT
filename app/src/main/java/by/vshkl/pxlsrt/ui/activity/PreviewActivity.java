@@ -39,8 +39,9 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     @BindView(R.id.iv_preview) ImageView ivPreview;
     @BindView(R.id.rg_settings) RadioGroup rgSettings;
     @BindView(R.id.rb_black) RadioButton rbBlack;
-    @BindView(R.id.rb_brightness) RadioButton rbBrightness;
     @BindView(R.id.rb_white) RadioButton rbWhite;
+    @BindView(R.id.rb_brightness) RadioButton rbBrightness;
+    @BindView(R.id.rb_color) RadioButton rbColor;
 
     @InjectPresenter PreviewPresenter presenter;
 
@@ -82,15 +83,15 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
                 presenter.setSortingMode(SortingMode.BLACK);
                 presenter.hideColorSeekBar();
                 break;
-            case R.id.rb_brightness:
-                presenter.setSortingMode(SortingMode.BRIGHTNESS);
-                presenter.hideColorSeekBar();
-                break;
             case R.id.rb_white:
                 presenter.setSortingMode(SortingMode.WHITE);
                 presenter.hideColorSeekBar();
                 break;
-            case R.id.rb_hue:
+            case R.id.rb_brightness:
+                presenter.setSortingMode(SortingMode.BRIGHTNESS);
+                presenter.hideColorSeekBar();
+                break;
+            case R.id.rb_color:
                 presenter.setSortingMode(SortingMode.COLOR);
                 presenter.showColorSeekBar();
                 break;
@@ -221,7 +222,8 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     private void setupTypeface() {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         rbBlack.setTypeface(typeface);
-        rbBrightness.setTypeface(typeface);
         rbWhite.setTypeface(typeface);
+        rbBrightness.setTypeface(typeface);
+        rbColor.setTypeface(typeface);
     }
 }

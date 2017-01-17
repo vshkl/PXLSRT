@@ -38,6 +38,21 @@
             />
 
         <RadioButton
+            android:id="@+id/rb_white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/settings_white"
+            android:textAllCaps="true"
+            android:textColor="@drawable/color_radio_button"
+            android:textSize="14sp"
+            />
+
+        <RadioButton
             android:id="@+id/rb_brightness"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -54,22 +69,7 @@
             />
 
         <RadioButton
-            android:id="@+id/rb_white"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:button="@null"
-            android:gravity="center"
-            android:text="@string/settings_white"
-            android:textAllCaps="true"
-            android:textColor="@drawable/color_radio_button"
-            android:textSize="14sp"
-            />
-
-        <RadioButton
-            android:id="@+id/rb_hue"
+            android:id="@+id/rb_color"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
