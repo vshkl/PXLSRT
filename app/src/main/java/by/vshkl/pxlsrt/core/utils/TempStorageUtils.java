@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import by.vshkl.pxlsrt.mvp.model.CameraFacing;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -18,7 +19,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TempStorageUtils {
 
-    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String fname, final byte[] data, final int resolution) {
+    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String filename,
+                                                    final byte[] data, final int resolution,
+                                                    final CameraFacing cameraFacing) {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
@@ -33,8 +36,13 @@ public class TempStorageUtils {
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution);
                 } else {
                     Matrix matrix = new Matrix();
-                    matrix.postRotate(90);
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution, matrix, true);
+                    if (cameraFacing == CameraFacing.FRONT) {
+                        matrix.postRotate(270);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution, matrix, true);
+                    } else {
+                        matrix.postRotate(90);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution, matrix, true);
+                    }
                 }
                 storeFile(fos, bitmap, 100)
                         .subscribeOn(Schedulers.io())
@@ -42,7 +50,7 @@ public class TempStorageUtils {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    emitter.onNext(fname);
+                                    emitter.onNext(filename);
                                 }
                             }
                         });
@@ -50,7 +58,7 @@ public class TempStorageUtils {
         });
     }
 
-    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String fname, final Uri uri) {
+    public static Observable<String> saveTempBitmap(final FileOutputStream fos, final String filename, final Uri uri) {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
@@ -63,7 +71,7 @@ public class TempStorageUtils {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 if (aBoolean) {
-                                    emitter.onNext(fname);
+                                    emitter.onNext(filename);
                                 }
                             }
                         });

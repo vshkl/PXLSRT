@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import by.vshkl.pxlsrt.R;
 import by.vshkl.pxlsrt.core.utils.PrefUtils;
+import by.vshkl.pxlsrt.mvp.model.CameraFacing;
 import by.vshkl.pxlsrt.mvp.presenter.CameraPresenter;
 import by.vshkl.pxlsrt.ui.customview.GridView;
 
@@ -247,10 +248,12 @@ public class CameraActivity extends MvpAppCompatActivity implements by.vshkl.pxl
             case CameraView.FACING_BACK:
                 cvCamera.setFacing(CameraView.FACING_FRONT);
                 ivCamera.setImageResource(R.drawable.ic_camera_front);
+                presenter.setCameraFacing(CameraFacing.FRONT);
                 break;
             case CameraView.FACING_FRONT:
                 cvCamera.setFacing(CameraView.FACING_BACK);
                 ivCamera.setImageResource(R.drawable.ic_camera_rear);
+                presenter.setCameraFacing(CameraFacing.REAR);
                 break;
         }
     }

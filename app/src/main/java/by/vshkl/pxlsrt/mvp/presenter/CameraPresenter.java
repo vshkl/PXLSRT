@@ -8,6 +8,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.io.FileOutputStream;
 
 import by.vshkl.pxlsrt.core.utils.TempStorageUtils;
+import by.vshkl.pxlsrt.mvp.model.CameraFacing;
 import by.vshkl.pxlsrt.mvp.view.CameraView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -18,11 +19,16 @@ import io.reactivex.schedulers.Schedulers;
 public class CameraPresenter extends MvpPresenter<CameraView> {
 
     private Disposable disposable;
+    private CameraFacing cameraFacing = CameraFacing.REAR;
 
     public void onDestroy() {
         if (disposable != null) {
             disposable.dispose();
         }
+    }
+
+    public void setCameraFacing(CameraFacing cameraFacing) {
+        this.cameraFacing = cameraFacing;
     }
 
     public void checkPermissions() {
@@ -73,8 +79,8 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
         getViewState().openSettings();
     }
 
-    public void processPicture(FileOutputStream fos, String fname, byte[] data, int resolution) {
-        disposable = TempStorageUtils.saveTempBitmap(fos, fname, data, resolution)
+    public void processPicture(FileOutputStream fos, String filename, byte[] data, int resolution) {
+        disposable = TempStorageUtils.saveTempBitmap(fos, filename, data, resolution, cameraFacing)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
@@ -85,8 +91,8 @@ public class CameraPresenter extends MvpPresenter<CameraView> {
                 });
     }
 
-    public void processPicture(FileOutputStream fos, String fname, Uri uri) {
-        disposable = TempStorageUtils.saveTempBitmap(fos, fname, uri)
+    public void processPicture(FileOutputStream fos, String filename, Uri uri) {
+        disposable = TempStorageUtils.saveTempBitmap(fos, filename, uri)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
