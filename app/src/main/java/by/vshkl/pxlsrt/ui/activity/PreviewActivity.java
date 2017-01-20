@@ -150,7 +150,22 @@ public class PreviewActivity extends MvpAppCompatActivity implements PreviewView
     public void logSortingMode(SortingMode sortingMode) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.VALUE, sortingMode.toString());
-        FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(getString(R.string.event_sorting_mode), bundle);
+        String eventName = getString(R.string.event_sorting_mode_bright);
+        switch (sortingMode) {
+            case BLACK:
+                eventName = getString(R.string.event_sorting_mode_black);
+                break;
+            case WHITE:
+                eventName = getString(R.string.event_sorting_mode_white);
+                break;
+            case BRIGHTNESS:
+                eventName = getString(R.string.event_sorting_mode_bright);
+                break;
+            case COLOR:
+                eventName = getString(R.string.event_sorting_mode_color);
+                break;
+        }
+        FirebaseAnalytics.getInstance(getApplicationContext()).logEvent(eventName, bundle);
     }
 
     //------------------------------------------------------------------------------------------------------------------
