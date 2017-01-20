@@ -38,7 +38,8 @@ public class TempStorageUtils {
                     Matrix matrix = new Matrix();
                     if (cameraFacing == CameraFacing.FRONT) {
                         matrix.postRotate(270);
-                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution, matrix, true);
+                        int x = width - height;
+                        bitmap = Bitmap.createBitmap(bitmap, x, 0, resultResolution, resultResolution, matrix, true);
                     } else {
                         matrix.postRotate(90);
                         bitmap = Bitmap.createBitmap(bitmap, 0, 0, resultResolution, resultResolution, matrix, true);
